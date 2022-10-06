@@ -5,3 +5,8 @@ serve with
 
 start on iphone with
 ```npm run ios```
+
+# To Do:
+- build login
+- build navigation
+- draw out ui
