@@ -44,7 +44,7 @@ const CreateAccount = ({ navigation }) => {
 
     return (
         <View>
-            <Text style={styles.sectionTitle}>Create Account</Text>
+            <Text style={styles.sectionTitle}>Login</Text>
             <View style={styles.displaybox}>
             <TextInput 
                 placeholder="Username" 
