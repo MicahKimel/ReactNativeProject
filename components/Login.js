@@ -27,14 +27,18 @@ const CreateAccount = ({ navigation }) => {
     this.setState({ password: event.target.value })
   }
 
+  createAccount = async event => {
+    navigation.navigate("CreateAccount")
+  }
+
 
   Login = async event => {
     console.log("GET")
     var url = "http://localhost:3000/authenticate" + 
     "?user=" + this.state.user + 
     "&password=" + this.state.password
-    console.log(url)
-    navigation.navigate("CreateAccount");
+    console.log(url);
+    navigation.navigate("Dashboard");
     // await axios.get(url)
     // .then((response) => {
     //   console.log(response.status);
@@ -45,21 +49,26 @@ const CreateAccount = ({ navigation }) => {
     return (
         <View>
             <Text style={styles.sectionTitle}>Login</Text>
-            <View style={styles.displaybox}>
-            <TextInput 
-                placeholder="Username" 
-                style={styles.input} 
-                onChange={this.handleUsernameChange}
-            />
-            <TextInput
-                onChange={this.handlePasswordChange}
-                secureTextEntry={true}
-                placeholder="Password"
-                style={styles.input}
-            />
-            <View style={styles.button} >
-            <Button title="Login" color="#ffffff" onPress={this.Login} />
-            </View>
+              <View styles={styles.paddingbox}>
+                <View style={styles.displaybox}>
+                  <TextInput 
+                      placeholder="Username" 
+                      style={styles.input} 
+                      onChange={this.handleUsernameChange}
+                  />
+                  <TextInput
+                      onChange={this.handlePasswordChange}
+                      secureTextEntry={true}
+                      placeholder="Password"
+                      style={styles.input}
+                  />
+                  <View style={styles.Loginbutton} >
+                  <Button title="Login" color="#ffffff" onPress={this.Login} />
+                  </View>
+                  <View style={styles.Accbutton}>
+                  <Button title="Create Account" color="#ffffff" onPress={this.createAccount} />
+                </View>
+              </View>
             </View>
         </View>
     );
@@ -68,9 +77,13 @@ const CreateAccount = ({ navigation }) => {
 export default CreateAccount;
 
 const styles = StyleSheet.create({
-    button:{
+    Accbutton:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
+    },
+    Loginbutton:{
+      marginTop: 50,
+      backgroundColor: "#14de21"
     },
     sectionContainer: {
       marginTop: 32,
@@ -86,17 +99,19 @@ const styles = StyleSheet.create({
         color: '#f44336'
     },
     displaybox:{
-        marginTop: 150,
+        marginTop: 50,
         paddingHorizontal: 24,
         paddingVertical: 24,
         backgroundColor: "#D6E0E4",
     },
+    paddingbox:{
+        paddingHorizontal: 24,
+        paddingVertical: 24,
+    },
     input: {
         marginTop: 16,
         paddingVertical: 8,
-        borderWidth: 1,
-        borderColor: "#DCFFDC",
-        backgroundColor: "#DCFFDC",
+        backgroundColor: "#ebedeb",
         color: "red",
         textAlign: "center",
     },

@@ -26,6 +26,10 @@ const CreateAccount = ({ navigation }) => {
   handlePasswordChange = event => {
     this.setState({ password: event.target.value })
   }
+  
+  Back = async event => {
+    navigation.navigate("Login");
+  }
 
 
   Login = async event => {
@@ -34,7 +38,7 @@ const CreateAccount = ({ navigation }) => {
     "?user=" + this.state.user + 
     "&password=" + this.state.password
     console.log(url)
-    navigation.navigate("Login");
+    navigation.navigate("Home");
     // await axios.get(url)
     // .then((response) => {
     //   console.log(response.status);
@@ -45,27 +49,32 @@ const CreateAccount = ({ navigation }) => {
     return (
         <View>
             <Text style={styles.sectionTitle}>Create Account</Text>
-            <View style={styles.displaybox}>
-            <TextInput 
-                placeholder="Username" 
-                style={styles.input} 
-                onChange={this.handleUsernameChange}
-            />
-            <TextInput
-                onChange={this.handlePasswordChange}
-                secureTextEntry={true}
-                placeholder="Password"
-                style={styles.input}
-            />
-            <TextInput
-                onChange={this.handlePasswordChange}
-                secureTextEntry={true}
-                placeholder="Password"
-                style={styles.input}
-            />
-            <View style={styles.button} >
-            <Button title="Login" color="#ffffff" onPress={this.Login} />
+            <View style={styles.backbutton} >
+                <Button title="<" color="#202124" onPress={this.Back} />
             </View>
+            <View style={styles.paddingbox}>
+                <View style={styles.displaybox}>
+                    <TextInput 
+                        placeholder="Username" 
+                        style={styles.input} 
+                        onChange={this.handleUsernameChange}
+                    />
+                    <TextInput
+                        onChange={this.handlePasswordChange}
+                        secureTextEntry={true}
+                        placeholder="Password"
+                        style={styles.input}
+                    />
+                    <TextInput
+                        onChange={this.handlePasswordChange}
+                        secureTextEntry={true}
+                        placeholder="Password"
+                        style={styles.input}
+                    />
+                    <View style={styles.button} >
+                        <Button title="Login" color="#ffffff" onPress={this.Login} />
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -77,6 +86,9 @@ const styles = StyleSheet.create({
     button:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
+    },    
+    backbutton:{
+        width: 50,
     },
     sectionContainer: {
       marginTop: 32,
@@ -92,17 +104,19 @@ const styles = StyleSheet.create({
         color: '#f44336'
     },
     displaybox:{
-        marginTop: 150,
+        marginTop: 50,
         paddingHorizontal: 24,
         paddingVertical: 24,
         backgroundColor: "#D6E0E4",
     },
+    paddingbox:{
+        paddingHorizontal: 24,
+        paddingVertical: 24,
+    },
     input: {
         marginTop: 16,
         paddingVertical: 8,
-        borderWidth: 1,
-        borderColor: "#DCFFDC",
-        backgroundColor: "#DCFFDC",
+        backgroundColor: "#ebedeb",
         color: "red",
         textAlign: "center",
     },
