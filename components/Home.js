@@ -35,7 +35,7 @@ export default class Home extends Component{
       paddingHorizontal: 24,
     },
     sectionTitle: {
-        marginTop: 16,
+        marginTop: 40,
       fontSize: 20,
       fontWeight: '600',
       textAlign: "center",

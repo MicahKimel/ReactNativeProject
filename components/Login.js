@@ -21,11 +21,11 @@ export default class CreateAccount extends Component {
   }
 
   handleUsernameChange = event => {
-    this.setState({ user: event.target.value })
+    this.setState({ user: event.nativeEvent.text })
   }
 
   handlePasswordChange = event => {
-    this.setState({ password: event.target.value })
+    this.setState({ password: event.nativeEvent.text })
   }
 
   createAccount = async event => {
@@ -55,13 +55,15 @@ export default class CreateAccount extends Component {
                   <TextInput 
                       placeholder="Username" 
                       style={styles.input} 
-                      onChange={this.handleUsernameChange}
+                      onChange={(this.handleUsernameChange)}
+                      value={this.user}
                   />
                   <TextInput
                       onChange={this.handlePasswordChange}
                       secureTextEntry={true}
                       placeholder="Password"
                       style={styles.input}
+                      value={this.password}
                   />
                   <View style={styles.Loginbutton} >
                   <Button title="Login" color="#ffffff" onPress={this.Login} />
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 24,
     },
     sectionTitle: {
-        marginTop: 16,
+      marginTop: 40,
       fontSize: 20,
       fontWeight: '600',
       textAlign: "center",
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
         paddingVertical: 8,
         backgroundColor: "#ebedeb",
-        color: "red",
+        color: "black",
         textAlign: "center",
     },
     sectionDescription: {

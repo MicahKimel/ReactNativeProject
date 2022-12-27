@@ -25,13 +25,12 @@ export default class Dashboard extends Component {
   
 
     onWeightText = event => {
-        this.setState({ weight: event.target.value })
+        this.setState({ weight: event.nativeEvent.text })
     }
 
     onRepsText = event => {
-        console.log('print')
-        console.log(this.reps)
-        console.log(this.weight)
+        this.setState({ reps: event.nativeEvent.text })
+        console.log(this.state.reps)
     }
     
 
@@ -45,7 +44,7 @@ export default class Dashboard extends Component {
             <View style={styles.backbutton} >
                 <Button title="<" color="#202124" onPress={this.Back} />
             </View>
-            <View>
+            <View style={styles.displaybox}>
                 <TypesDropDown></TypesDropDown>
                 <TextInput
                     style={styles.input}
@@ -59,10 +58,11 @@ export default class Dashboard extends Component {
                     keyboardType="numeric"
                     value={this.reps}
                 />
-                <View>
-                <View style={styles.Loginbutton} >
-                    <Button title="Login" color="#ffffff" onPress={this.onRepsText} />
+                <View style={styles.Accbutton}>
+                  <Button title="Sumbit" color="#ffffff" onPress={this.createAccount} />
                 </View>
+            </View>
+            <View>
             <Text>Bezier Line Chart</Text>
             <LineChart
                 data={{
@@ -128,7 +128,6 @@ export default class Dashboard extends Component {
                 }}
             />
             </View>
-                </View>
             </View>
     );
     }
@@ -137,6 +136,9 @@ export default class Dashboard extends Component {
 
 const styles = StyleSheet.create({
     button:{
+        backgroundColor: "#3DB4E4"
+    },    
+    Accbutton:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
     },
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 24,
     },
     sectionTitle: {
-        marginTop: 16,
+        marginTop: 40,
       fontSize: 20,
       fontWeight: '600',
       textAlign: "center",
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
         color: '#f44336'
     },
     displaybox:{
-        marginTop: 150,
+        marginTop: 10,
         paddingHorizontal: 24,
         paddingVertical: 24,
         backgroundColor: "#D6E0E4",
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#384252",
         backgroundColor: "#385380",
-        color: "red",
+        color: "black",
         textAlign: "center",
     },
     sectionDescription: {

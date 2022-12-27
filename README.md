@@ -10,6 +10,11 @@ start on iphone with
 ```npm run ios```
 
 # To Do:
-- build login
-- build navigation
-- draw out ui
+- build submit workout ui
+- connect to webapi
+- login / create account with webapi
+- sync with cookies for limited logins
+- allow finger tap login
+- submit workout with api
+- get workouts with api
+- customize graphing workouts
