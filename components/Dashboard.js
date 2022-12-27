@@ -1,4 +1,4 @@
-import TitleBar from "./TitleBar";
+import TypesDropDown from "./TypesDropDown";
 import { SelectList } from 'react-native-dropdown-select-list'
 import React from "react";
 import {
@@ -16,23 +16,29 @@ import {
     View,
     Dimensions,
   } from 'react-native';
-const Dashboard = ({ navigation }) => {
-
-    const [selected, setSelected] = React.useState("");
+import { Component } from "react/cjs/react.production.min";
+export default class Dashboard extends Component {
+    state = {
+        weight: '',
+        reps: ''
+      }
   
-    const data = [
-        {key:'1', value:'Mobiles'},
-        {key:'2', value:'Appliances'},
-        {key:'3', value:'Cameras'},
-        {key:'4', value:'Computers'},
-        {key:'5', value:'Vegetables'},
-        {key:'6', value:'Diary Products'},
-        {key:'7', value:'Drinks'},
-    ]
+
+    onWeightText = event => {
+        this.setState({ weight: event.target.value })
+    }
+
+    onRepsText = event => {
+        console.log('print')
+        console.log(this.reps)
+        console.log(this.weight)
+    }
+    
 
     Back = async event => {
-        navigation.navigate("Login");
+        this.props.navigation.navigate("Login");
     }
+    render(){
     return (
         <View>
             <Text style={styles.sectionTitle}>Dashboard</Text>            
@@ -40,22 +46,23 @@ const Dashboard = ({ navigation }) => {
                 <Button title="<" color="#202124" onPress={this.Back} />
             </View>
             <View>
-                <SelectList 
-                    setSelected={(val) => setSelected(val)} 
-                    data={data} 
-                    save="value"
+                <TypesDropDown></TypesDropDown>
+                <TextInput
+                    style={styles.input}
+                    onChange={this.onWeightText}
+                    keyboardType="numeric"
+                    value={this.reps}
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                />
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
+                    onChange={this.onRepsText}
+                    keyboardType="numeric"
+                    value={this.reps}
                 />
                 <View>
+                <View style={styles.Loginbutton} >
+                    <Button title="Login" color="#ffffff" onPress={this.onRepsText} />
+                </View>
             <Text>Bezier Line Chart</Text>
             <LineChart
                 data={{
@@ -124,9 +131,9 @@ const Dashboard = ({ navigation }) => {
                 </View>
             </View>
     );
+    }
 };
 
-export default Dashboard;
 
 const styles = StyleSheet.create({
     button:{
@@ -158,9 +165,10 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 16,
         paddingVertical: 8,
+        paddingHorizontal: 20,
         borderWidth: 1,
-        borderColor: "#DCFFDC",
-        backgroundColor: "#DCFFDC",
+        borderColor: "#384252",
+        backgroundColor: "#385380",
         color: "red",
         textAlign: "center",
     },

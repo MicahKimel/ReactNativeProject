@@ -13,7 +13,8 @@ import {
     useColorScheme,
     View,
   } from 'react-native';
-const CreateAccount = ({ navigation }) => {
+import { Component } from "react/cjs/react.production.min";
+export default class CreateAccount extends Component {
   state = {
     user: '',
     password: ''
@@ -28,7 +29,7 @@ const CreateAccount = ({ navigation }) => {
   }
 
   createAccount = async event => {
-    navigation.navigate("CreateAccount")
+    this.props.navigation.navigate("CreateAccount")
   }
 
 
@@ -38,14 +39,14 @@ const CreateAccount = ({ navigation }) => {
     "?user=" + this.state.user + 
     "&password=" + this.state.password
     console.log(url);
-    navigation.navigate("Dashboard");
+    this.props.navigation.navigate("Dashboard");
     // await axios.get(url)
     // .then((response) => {
     //   console.log(response.status);
     //   console.log(response.data);
     // })
   }
-
+  render(){
     return (
         <View>
             <Text style={styles.sectionTitle}>Login</Text>
@@ -72,9 +73,9 @@ const CreateAccount = ({ navigation }) => {
             </View>
         </View>
     );
+  }
 };
 
-export default CreateAccount;
 
 const styles = StyleSheet.create({
     Accbutton:{

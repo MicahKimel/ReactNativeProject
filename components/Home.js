@@ -9,21 +9,26 @@ import {
     useColorScheme,
     View,
   } from 'react-native';
+import { Component } from 'react/cjs/react.production.min';
 
-const Home = ({ navigation }) => {
+export default class Home extends Component{
+    render(){
     return (
       <View>
       <Text style={styles.sectionTitle}>Home</Text>
       </View>
     );
+    }
   };
   
-  export default Home;
 
   const styles = StyleSheet.create({
     button:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
+    },    
+    backbutton:{
+        width: 50,
     },
     sectionContainer: {
       marginTop: 32,
