@@ -18,3 +18,5 @@ start on iphone with
 - submit workout with api
 - get workouts with api
 - customize graphing workouts
+    - build date quick filter for graphing
+    - build ability to toggle things on and off graph

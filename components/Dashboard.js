@@ -1,8 +1,7 @@
 import TypesDropDown from "./TypesDropDown";
-import { SelectList } from 'react-native-dropdown-select-list'
 import React from "react";
 import {
-    LineChart
+    LineChart, ContributionGraph
   } from "react-native-chart-kit";
 import {
     SafeAreaView,
@@ -20,9 +19,23 @@ import { Component } from "react/cjs/react.production.min";
 export default class Dashboard extends Component {
     state = {
         weight: '',
-        reps: ''
+        reps: '',
+        data: [40, 35, 18, 30, 99, 13],
+        data2: [20, 45, 28, 80, 99, 43, 55],
+        data3: [
+            { date: "2017-01-02", count: 1 },
+            { date: "2017-01-03", count: 2 },
+            { date: "2017-01-04", count: 3 },
+            { date: "2017-01-05", count: 4 },
+            { date: "2017-01-06", count: 5 },
+            { date: "2017-01-30", count: 2 },
+            { date: "2017-01-31", count: 3 },
+            { date: "2017-03-01", count: 2 },
+            { date: "2017-04-02", count: 4 },
+            { date: "2017-03-05", count: 2 },
+            { date: "2017-02-30", count: 4 }
+          ]
       }
-  
 
     onWeightText = event => {
         this.setState({ weight: event.nativeEvent.text })
@@ -63,42 +76,47 @@ export default class Dashboard extends Component {
                 </View>
             </View>
             <View>
+            <ContributionGraph
+            values={commitsData}
+            endDate={new Date("2017-11-01")}
+            numDays={105}
+            width={Dimensions.get("window").width}
+            height={220}
+            chartConfig={{
+                backgroundColor: "#e26a00",
+                backgroundGradientFrom: "#fb8c00",
+                backgroundGradientTo: "#ffa726",
+                decimalPlaces: 2, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                    borderRadius: 16
+                },
+                propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#ffa726"
+                }
+                }}
+            />
             <Text>Bezier Line Chart</Text>
             <LineChart
                 data={{
-                labels: ["January", "February", "March", "April", "May", "June"],
-                datasets: [
-                    {
-                    data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100
-                    ]
-                    },
-                    {
-                        data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100
-                        ]
-                    },
-                    {
-                        data: [
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100
-                        ]
+                    labels: ["January", "February", "March", "April", "May", "June"],
+                    datasets: [
+                        {
+                        data: this.state.data2,
+                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                        strokeWidth: 2 // optional
+                        },
+                
+                        {
+                        data: this.state.data,
+                        color: (opacity = 1) => `rgba(134, 70, 50, ${opacity})`, // optional
+                        strokeWidth: 2 // optional
                         }
-                ]
+                    ],
+                    legend: ["Rainy Days"] // optional
                 }}
                 width={Dimensions.get("window").width} // from react-native
                 height={220}
@@ -133,6 +151,25 @@ export default class Dashboard extends Component {
     }
 };
 
+const commitsData = [
+    { date: "2017-01-02", count: 1 },
+    { date: "2017-01-03", count: 2 },
+    { date: "2017-01-04", count: 3 },
+    { date: "2017-01-05", count: 4 },
+    { date: "2017-01-06", count: 5 },
+    { date: "2017-01-30", count: 2 },
+    { date: "2017-01-31", count: 3 },
+    { date: "2017-03-01", count: 2 },
+    { date: "2017-04-02", count: 4 },
+    { date: "2017-03-05", count: 2 },
+    { date: "2017-02-30", count: 4 },
+    { date: "2017-05-30", count: 4 },
+    { date: "2017-06-30", count: 4 },
+    { date: "2017-07-30", count: 4 },
+    { date: "2017-08-30", count: 4 },
+    { date: "2017-09-30", count: 4 },
+    { date: "2017-10-30", count: 4 }
+  ];
 
 const styles = StyleSheet.create({
     button:{
