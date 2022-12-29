@@ -1,4 +1,5 @@
 import TypesDropDown from "./TypesDropDown";
+import Month from "./Month";
 import React from "react";
 import {
     LineChart, ContributionGraph
@@ -52,7 +53,8 @@ export default class Dashboard extends Component {
     }
     render(){
     return (
-        <View>
+        <ScrollView style={styles.scrollView}>
+        <View style={{flex: 1}} >
             <Text style={styles.sectionTitle}>Dashboard</Text>            
             <View style={styles.backbutton} >
                 <Button title="<" color="#202124" onPress={this.Back} />
@@ -75,8 +77,13 @@ export default class Dashboard extends Component {
                   <Button title="Sumbit" color="#ffffff" onPress={this.createAccount} />
                 </View>
             </View>
+            <ScrollView style={styles.scrollView} horizontal={true}>
+                <View style={styles.displaybox}>
+                    <Month />
+                </View>
+            </ScrollView>
             <View>
-            <ContributionGraph
+            {/* <ContributionGraph
             values={commitsData}
             endDate={new Date("2017-11-01")}
             numDays={105}
@@ -99,8 +106,8 @@ export default class Dashboard extends Component {
                 }
                 }}
             />
-            <Text>Bezier Line Chart</Text>
-            <LineChart
+            <Text>Bezier Line Chart</Text> */}
+            {/* <LineChart
                 data={{
                     labels: ["January", "February", "March", "April", "May", "June"],
                     datasets: [
@@ -144,12 +151,23 @@ export default class Dashboard extends Component {
                 marginVertical: 8,
                 borderRadius: 16
                 }}
-            />
+            /> */}
             </View>
             </View>
+            </ScrollView>
     );
     }
 };
+
+const Col = ({ numRows, children }) => {
+    return  (
+      <View style={styles[`${numRows}col`]}>{children}</View>
+    )
+  }
+
+const Row = ({ children }) => (
+    <View style={styles.row}>{children}</View>
+)
 
 const commitsData = [
     { date: "2017-01-02", count: 1 },
@@ -178,9 +196,28 @@ const styles = StyleSheet.create({
     Accbutton:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
+    },    
+    Accbutton:{
+        marginTop: 50,
+        backgroundColor: "#3DB4E4"
+    },
+    GridBttn:{
+        backgroundColor: "#704b48"
     },
     backbutton:{
         width: 50,
+    },
+    col:  {
+        backgroundColor:  "lightblue",
+        borderColor:  "#fff",
+        borderWidth:  1,
+        flex:  1
+    },  
+    scrollView: {
+      paddingVertical: 20,
+    },
+    row: {
+        flexDirection: "row"
     },
     sectionContainer: {
       marginTop: 32,
