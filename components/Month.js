@@ -11,6 +11,7 @@ import {
     View,
     Dimensions,
   } from 'react-native';
+  import { Component } from "react/cjs/react.production.min";
 
 const Month = () => {
 
@@ -18,1456 +19,114 @@ const Month = () => {
     <View>
         <Row>
             <Col>
-                <Text>January                                                     </Text>
+                <Text>   January                                                     </Text>
             </Col>
             <Col>
-                <Text>February                                           </Text>
+                <Text>       February                                           </Text>
             </Col>
             <Col>
-                <Text>March                                                        </Text>
+                <Text>     March                                                    </Text>
             </Col>
             <Col>
                 <Text>April                                                 </Text>
             </Col>
             <Col>
-                <Text>May                                                            </Text>
+                <Text>       May                                                            </Text>
             </Col>
             <Col>
-                <Text>June                                                 </Text>
+                <Text>       June                                                 </Text>
             </Col>
             <Col>
-                <Text>July                                                            </Text>
+                <Text>     July                                                            </Text>
             </Col>
             <Col>
-                <Text>August                                                       </Text>
+                <Text>       August                                                       </Text>
             </Col>
             <Col>
-                <Text>September                                      </Text>
+                <Text>      September                                      </Text>
             </Col>
             <Col>
-                <Text>October                                                     </Text>
+                <Text>      October                                                     </Text>
             </Col>
             <Col>
-                <Text>November                                        </Text>
+                <Text>       November                                        </Text>
             </Col>
             <Col>
-                <Text>December</Text>
+                <Text>     December</Text>
             </Col>
         </Row>
         <Row>
-            {//January 
+            {
+                getDates(new Date(year, 0, 1), new Date(year, 11, 1).addDays(daysInMonth(12, year))).map(i => {
+                    if (i.getDate() % 5 == 0 && i.getDate() == 5)
+                    return (
+                        <Col numRows={0}>
+                        <Row>
+                        <Text>   </Text>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()}></Day>
+                        </Row>
+                        <Row>
+                        <Text>   </Text>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()}></Day>
+                        </Row>
+                        <Row>
+                        <Text>   </Text>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()}></Day>
+                        </Row>
+                        <Row>
+                        <Text>   </Text>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()}></Day>
+                        </Row>
+                        <Row>
+                        <Text>   </Text>
+                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()}></Day>
+                        </Row>
+                        </Col>
+                      );
+                    if (i.getDate() % 5 == 0)
+                    return (
+                        <Col numRows={0}>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()}></Day>
+                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()}></Day>
+                        </Col>
+                      );
+                    if (i.getMonth() == 1 && i.getDate() == 26 && year % 4 == 0)
+                    return (
+                        <View>
+                            <Col numRows={0}>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+3).toString()}></Day>
+                            </Col>
+                        </View>
+                      );
+                    if (i.getMonth() == 1 && i.getDate() == 26 && year % 4 != 0)
+                      return (
+                        <View>
+                            <Col numRows={0}>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()}></Day>
+                            </Col>
+                        </View>
+                        );
+                    if (daysInMonth(i.getMonth(), year) >= 30 && i.getDate() == 31)
+                      return (
+                        <View>
+                            <Col numRows={0}>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()}></Day>
+                            </Col>
+                        </View>
+                        );
+                    return (
+                        null
+                    );
+                })
             }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//Febuary 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            {/* SET THIS ON LEAP YEARS
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View> */}
-            </Col>
-
-
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//March 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//April 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//May 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//June 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//July 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//August 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//September 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//October 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//November 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-
-            <Col numRows={0}>
-            <Text>  </Text>
-            </Col>
-
-            {//December 
-            }
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="1" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="2" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="3" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="4" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="5" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="6" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="7" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="8" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="9" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="10" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="11" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="12" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="13" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="14" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="15" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="16" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="17" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="18" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="19" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="20" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="21" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="22" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="23" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="24" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="25" color="#ffffff"/>
-            </View>
-            </Col>
-
-            <Col numRows={0}>
-            <View style={styles.GridBttn}>
-            <Button title="26" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="27" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="28" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="29" color="#ffffff"/>
-            </View>
-            <View style={styles.GridBttn}>
-            <Button title="30" color="#ffffff"/>
-            </View>
-            </Col>
-
-
-            <Col>
-            <View style={styles.GridBttn}>
-            <Button title="31" color="#ffffff"/>
-            </View>
-            </Col>
 
         </Row>
     </View>
@@ -1475,6 +134,43 @@ const Month = () => {
 
 };
 export default Month;
+
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+const date = new Date();
+
+const year = date.getFullYear();
+const month = date.getMonth();
+const day = date.getDate();
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getDates(startDate, stopDate) {
+    var dateArray = new Array();
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date (currentDate));
+        currentDate = currentDate.addDays(1);
+    }
+    return dateArray;
+}
+
+
+class Day extends Component{
+    render(){
+        return (
+            <View style={new Date().getMonth() + 1 == this.props.month && new Date().getDate() == this.props.day ? styles.GridBttnToday : styles.GridBttn}>
+                <Button title={this.props.day} color="#ffffff"/>
+            </View>
+        )
+    }
+};
 
 const Col = ({ numRows, children }) => {
     return  (
@@ -1499,7 +195,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#3DB4E4"
     },
     GridBttn:{
+        width: 38,
         backgroundColor: "#704b48"
+    },
+    GridBttnToday:{
+        backgroundColor: "#3DB4E4"
     },
     backbutton:{
         width: 50,

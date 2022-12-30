@@ -77,7 +77,9 @@ export default class Dashboard extends Component {
                   <Button title="Sumbit" color="#ffffff" onPress={this.createAccount} />
                 </View>
             </View>
-            <ScrollView style={styles.scrollView} horizontal={true}>
+            <Text>{new Date().toLocaleString()}</Text>
+            <ScrollView style={styles.scrollView} horizontal={true}
+                contentOffset={{x:new Date().getMonth() * 250, y:0}} >
                 <View style={styles.displaybox}>
                     <Month />
                 </View>
@@ -215,6 +217,7 @@ const styles = StyleSheet.create({
     },  
     scrollView: {
       paddingVertical: 20,
+      flexWrap: 'wrap'
     },
     row: {
         flexDirection: "row"
