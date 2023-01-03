@@ -1,16 +1,10 @@
-import TitleBar from "./TitleBar";
-import { NativeRouter, Route, Link } from "react-router-native";
 import axios from "axios";
 import React from "react";
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
     TextInput,
     Button,
-    useColorScheme,
     View,
   } from 'react-native';
 import { Component } from "react/cjs/react.production.min";

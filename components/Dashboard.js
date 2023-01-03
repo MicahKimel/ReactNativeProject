@@ -1,5 +1,6 @@
 import TypesDropDown from "./TypesDropDown";
 import Month from "./Month";
+import axios from "axios";
 import React from "react";
 import {
     LineChart, ContributionGraph
@@ -109,7 +110,7 @@ export default class Dashboard extends Component {
                 }}
             />
             <Text>Bezier Line Chart</Text> */}
-            {/* <LineChart
+             <LineChart
                 data={{
                     labels: ["January", "February", "March", "April", "May", "June"],
                     datasets: [
@@ -153,7 +154,7 @@ export default class Dashboard extends Component {
                 marginVertical: 8,
                 borderRadius: 16
                 }}
-            /> */}
+            /> 
             </View>
             </View>
             </ScrollView>
