@@ -10,6 +10,7 @@ start on iphone with
 ```npm run ios```
 
 # To Do:
+- Determine smarter way for date header spacing
 - build submit workout ui
 - connect to webapi
 - login / create account with webapi

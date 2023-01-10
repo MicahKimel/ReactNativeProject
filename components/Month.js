@@ -1,15 +1,9 @@
 import React from "react";
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    TextInput,
     Button,
-    useColorScheme,
     View,
-    Dimensions,
   } from 'react-native';
   import { Component } from "react/cjs/react.production.min";
 
@@ -199,6 +193,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#704b48"
     },
     GridBttnToday:{
+        width: 38,
         backgroundColor: "#3DB4E4"
     },
     backbutton:{
