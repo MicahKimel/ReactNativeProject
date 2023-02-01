@@ -15,7 +15,8 @@ start on iphone with
 - connect to webapi
 - login / create account with webapi
 - sync with cookies for limited logins
-- allow finger tap login
+- allow finger print login
+- add google, apple login availabilty 
 - submit workout with api
 - get workouts with api
 - customize graphing workouts
