@@ -18,7 +18,8 @@ to run in xcode open the ```.xcworkspace``` file
 - Determine smarter way for date header spacing
 - build submit workout ui
 - sync with cookies for limited logins
-- allow finger tap login
+- allow finger print login
+- add google, apple login availabilty 
 - submit workout with api
 - get workouts with api
 - customize graphing workouts
