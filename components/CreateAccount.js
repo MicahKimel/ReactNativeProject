@@ -15,11 +15,11 @@ import { Component } from "react/cjs/react.production.min";
   }
 
   handleUsernameChange = event => {
-    this.setState({ user: event.target.value })
+    this.setState({ user: event.nativeEvent.text })
   }
 
   handlePasswordChange = event => {
-    this.setState({ password: event.target.value })
+    this.setState({ password: event.nativeEvent.text })
   }
   
   Back = async event => {
@@ -28,17 +28,37 @@ import { Component } from "react/cjs/react.production.min";
 
 
   Login = async event => {
-    console.log("GET")
-    var url = "http://localhost:3000/authenticate" + 
-    "?user=" + this.state.user + 
-    "&password=" + this.state.password
+    console.log("POST")
+    var url = "https://localhost:7144/api/CreateAccount" 
+    // + 
+    // "?user=" + this.state.user + 
+    // "&password=" + this.state.password
     console.log(url)
-    this.props.navigation.navigate("Home");
-    // await axios.get(url)
-    // .then((response) => {
-    //   console.log(response.status);
-    //   console.log(response.data);
-    // })
+    console.log(this.state.user)
+    console.log(this.state.password)
+    try{
+      await axios({
+       method: 'post',
+       url: url,
+       headers: {},
+       data: {
+        username: this.state.user, 
+        password: this.state.password
+       },
+       httpsAgent: {
+         rejectUnauthorized: false,
+         requestCert: false,
+         agent: false,
+       }
+      })
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+        this.props.navigation.navigate("Dashboard");
+      })
+     } catch (error) {
+       console.log(error)
+     }
   }
   render(){
     return (
@@ -52,7 +72,7 @@ import { Component } from "react/cjs/react.production.min";
                     <TextInput 
                         placeholder="Username" 
                         style={styles.input} 
-                        onChange={this.handleUsernameChange}
+                        onChange={(this.handleUsernameChange)}
                     />
                     <TextInput
                         onChange={this.handlePasswordChange}
@@ -61,7 +81,7 @@ import { Component } from "react/cjs/react.production.min";
                         style={styles.input}
                     />
                     <TextInput
-                        onChange={this.handlePasswordChange}
+                        //onChange={this.handlePasswordChange}
                         secureTextEntry={true}
                         placeholder="Password"
                         style={styles.input}

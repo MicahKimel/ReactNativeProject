@@ -28,22 +28,39 @@ export default class CreateAccount extends Component {
 
 
   Login = async event => {
-    console.log("GET")
-    var url = "http://localhost:3000/authenticate" + 
-    "?user=" + this.state.user + 
-    "&password=" + this.state.password
-    console.log(url);
-    this.props.navigation.navigate("Dashboard");
-    // await axios.get(url)
-    // .then((response) => {
-    //   console.log(response.status);
-    //   console.log(response.data);
-    // })
+    console.log("POST")
+    var url = "https://localhost:7144/api/Login" 
+    // + 
+    // "?user=" + this.state.user + 
+    // "&password=" + this.state.password
+    try{
+     await axios({
+      method: 'post',
+      url: url,
+      headers: {},
+      data: {
+        username: this.state.user, 
+        password: this.state.password
+      },
+      httpsAgent: {
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+     })
+     .then((response) => {
+       console.log(response.status);
+       console.log(response.data);
+       this.props.navigation.navigate("Dashboard");
+     })
+    } catch (error) {
+      console.log(error)
+    }
   }
   render(){
     return (
         <View>
-            <Text style={styles.sectionTitle}>Login</Text>
+            <Text style={styles.sectionTitle}>User Login</Text>
               <View styles={styles.paddingbox}>
                 <View style={styles.displaybox}>
                   <TextInput 

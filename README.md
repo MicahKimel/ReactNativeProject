@@ -9,11 +9,14 @@ serve with
 start on iphone with
 ```npm run ios```
 
+to run in xcode open the ```.xcworkspace``` file
+
+
+
 # To Do:
+- Need documentation for running on andriod
 - Determine smarter way for date header spacing
 - build submit workout ui
-- connect to webapi
-- login / create account with webapi
 - sync with cookies for limited logins
 - allow finger tap login
 - submit workout with api
@@ -21,3 +24,5 @@ start on iphone with
 - customize graphing workouts
     - build date quick filter for graphing
     - build ability to toggle things on and off graph
+
+- When making live remember to delete SSL override
