@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { storeUserSession } from "./code";
 import {
     StyleSheet,
     Text,
@@ -50,7 +51,8 @@ export default class CreateAccount extends Component {
      })
      .then((response) => {
        console.log(response.status);
-       console.log(response.data);
+       console.log(response.data["token"]);
+       storeUserSession(response.data["token"]);
        this.props.navigation.navigate("Dashboard");
      })
     } catch (error) {

@@ -1,7 +1,9 @@
 import TypesDropDown from "./TypesDropDown";
 import Month from "./Month";
+import Charting from "./Charting";
 import axios from "axios";
 import React from "react";
+import { retrieveUserSession } from "./code";
 import {
     LineChart, ContributionGraph
   } from "react-native-chart-kit";
@@ -22,6 +24,8 @@ export default class Dashboard extends Component {
     state = {
         weight: '',
         reps: '',
+        exercise: '',
+        showAddWorkout: false,
         data: [40, 35, 18, 30, 99, 13],
         data2: [20, 45, 28, 80, 99, 43, 55],
         data3: [
@@ -47,6 +51,93 @@ export default class Dashboard extends Component {
         this.setState({ reps: event.nativeEvent.text })
         console.log(this.state.reps)
     }
+
+    onExerciesChange = (val) => {
+        this.setState({ exercise: val })
+        console.log(this.state.exercise)
+    }
+
+    toggleShowWorkout = event => {
+        this.setState({ showAddWorkout: !this.state.showAddWorkout })
+        console.log(this.state.showAddWorkout)
+    }
+
+    componentDidMount(){
+        console.log("mounted")
+        this.GetUserExercise()
+    }
+
+    GetUserExercise = async event => {
+        console.log("GET")
+        var url = "https://localhost:7144/work/getUserExerciseSetByWorkout" 
+        //retrieveUserSession()
+        let session = await retrieveUserSession()
+        console.log(session.split("\"")[3])
+        console.log(this.state.data)
+        // + 
+        // "?user=" + this.state.user + 
+        // "&password=" + this.state.password
+        try{
+            await axios({
+            method: 'get',
+            url: url,
+            headers: {Authorization : "Bearer " + session.split("\"")[3]},
+            httpsAgent: {
+            rejectUnauthorized: false,
+            requestCert: false,
+            agent: false,
+            }
+            })
+            .then((response) => {
+            console.log(response.status);
+            console.log(response.data);
+            this.state.data = response.data;
+            this.toggleShowWorkout()
+            //this.props.navigation.navigate("Dashboard");
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    createExercise = async event => {
+        console.log("POST")
+        var url = "https://localhost:7144/work/exerciseSet" 
+        //retrieveUserSession()
+        let session = await retrieveUserSession()
+        console.log(session.split("\"")[3])
+        console.log(this.state.data)
+        // + 
+        // "?user=" + this.state.user + 
+        // "&password=" + this.state.password
+        try{
+            await axios({
+            method: 'post',
+            url: url,
+            headers: {Authorization : "Bearer " + session.split("\"")[3]},
+            data: {
+              exerciseId: this.state.exercise, 
+              weight: this.state.weight,
+              reps: this.state.reps,
+              metricType: 1
+            },
+            httpsAgent: {
+            rejectUnauthorized: false,
+            requestCert: false,
+            agent: false,
+            }
+            })
+            .then((response) => {
+            console.log(response.status);
+            console.log(response.data);
+            //this.state.data = response.data;
+            this.toggleShowWorkout()
+            //this.props.navigation.navigate("Dashboard");
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
 
     Back = async event => {
@@ -57,17 +148,27 @@ export default class Dashboard extends Component {
         <ScrollView style={styles.scrollView}>
         <View style={{flex: 1}} >
             <Text style={styles.sectionTitle}>Dashboard</Text>            
-            <View style={styles.backbutton} >
-                <Button title="<" color="#202124" onPress={this.Back} />
+            <View>
+                <Row>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <Button title="<" color="#202124" onPress={this.Back} />
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <Button title="+" color="#76BFE4" onPress={this.toggleShowWorkout} />
+                    </View>
+                </Row>
             </View>
+            { this.state.showAddWorkout &&
             <View style={styles.displaybox}>
-                <TypesDropDown></TypesDropDown>
+                <TypesDropDown SelectedWorkout = {this.onExerciesChange}></TypesDropDown>
+                <Text>Weight</Text>
                 <TextInput
                     style={styles.input}
                     onChange={this.onWeightText}
                     keyboardType="numeric"
                     value={this.reps}
                 />
+                <Text>Reps</Text>
                 <TextInput
                     style={styles.input}
                     onChange={this.onRepsText}
@@ -75,9 +176,10 @@ export default class Dashboard extends Component {
                     value={this.reps}
                 />
                 <View style={styles.Accbutton}>
-                  <Button title="Sumbit" color="#ffffff" onPress={this.createAccount} />
+                  <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
                 </View>
             </View>
+            }
             <Text>{new Date().toLocaleString()}</Text>
             <ScrollView style={styles.scrollView} horizontal={true}
                 contentOffset={{x:new Date().getMonth() * 250, y:0}} >
@@ -110,57 +212,19 @@ export default class Dashboard extends Component {
                 }}
             />
             <Text>Bezier Line Chart</Text> */}
-             <LineChart
-                data={{
-                    labels: ["January", "February", "March", "April", "May", "June"],
-                    datasets: [
-                        {
-                        data: this.state.data2,
-                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-                        strokeWidth: 2 // optional
-                        },
-                
-                        {
-                        data: this.state.data,
-                        color: (opacity = 1) => `rgba(134, 70, 50, ${opacity})`, // optional
-                        strokeWidth: 2 // optional
-                        }
-                    ],
-                    legend: ["Rainy Days"] // optional
-                }}
-                width={Dimensions.get("window").width} // from react-native
-                height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
-                yAxisInterval={1} // optional, defaults to 1
-                chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                    borderRadius: 16
-                },
-                propsForDots: {
-                    r: "6",
-                    strokeWidth: "2",
-                    stroke: "#ffa726"
-                }
-                }}
-                bezier
-                style={{
-                marginVertical: 8,
-                borderRadius: 16
-                }}
-            /> 
             </View>
             </View>
             </ScrollView>
     );
     }
 };
+
+function getFields(input, field) {
+    var output = [];
+    for (var i=0; i < input.length ; ++i)
+        output.push(input[i][field]);
+    return output;
+}
 
 const Col = ({ numRows, children }) => {
     return  (
@@ -201,7 +265,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#3DB4E4"
     },    
     Accbutton:{
-        marginTop: 50,
+        marginTop: 20,
         backgroundColor: "#3DB4E4"
     },
     GridBttn:{
@@ -209,6 +273,14 @@ const styles = StyleSheet.create({
     },
     backbutton:{
         width: 50,
+    },
+    addWorkoutbutton:{
+        width: 50,
+        position: "absolute",
+        alignSelf: 'flex-end',
+        right: 0,
+        paddingHorizontal: 20,
+        
     },
     col:  {
         backgroundColor:  "lightblue",
@@ -243,12 +315,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#D6E0E4",
     },
     input: {
-        marginTop: 16,
+        marginTop: 0,
+        marginBottom: 2,
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderWidth: 1,
-        borderColor: "#384252",
-        backgroundColor: "#385380",
+        borderColor: "#A2B6AB",
+        backgroundColor: "#F5FEF9",
         color: "black",
         textAlign: "center",
     },

@@ -9,21 +9,6 @@ serve with
 start on iphone with
 ```npm run ios```
 
+REMEMBER to `pod install` whenever installing packages
+
 to run in xcode open the ```.xcworkspace``` file
-
-
-
-# To Do:
-- Need documentation for running on andriod
-- Determine smarter way for date header spacing
-- build submit workout ui
-- sync with cookies for limited logins
-- allow finger print login
-- add google, apple login availabilty 
-- submit workout with api
-- get workouts with api
-- customize graphing workouts
-    - build date quick filter for graphing
-    - build ability to toggle things on and off graph
-
-- When making live remember to delete SSL override

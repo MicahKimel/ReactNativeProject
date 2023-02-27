@@ -5,6 +5,7 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Home from "./Home";
 import CreateAccount from "./CreateAccount";
+import Charting from "./Charting";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,12 +22,16 @@ const NavigationStack = () => {
           component={Login}
         />
         <Stack.Screen 
-        name="CreateAccount" 
-        component={CreateAccount} 
+          name="CreateAccount" 
+          component={CreateAccount} 
         />
         <Stack.Screen
           name="Home"
           component={Home}
+        />
+        <Stack.Screen
+          name="Charting"
+          component={Charting}
         />
       </Stack.Navigator>
     </NavigationContainer>

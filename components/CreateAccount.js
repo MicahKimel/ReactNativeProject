@@ -54,7 +54,7 @@ import { Component } from "react/cjs/react.production.min";
       .then((response) => {
         console.log(response.status);
         console.log(response.data);
-        this.props.navigation.navigate("Dashboard");
+        this.props.navigation.navigate("Login");
       })
      } catch (error) {
        console.log(error)
