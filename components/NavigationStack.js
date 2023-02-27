@@ -21,6 +21,10 @@ const NavigationStack = () => {
           name="Login"
           component={Login}
         />
+        <Stack.Screen
+          name="Charting"
+          component={Charting}
+        />
         <Stack.Screen 
           name="CreateAccount" 
           component={CreateAccount} 
@@ -28,10 +32,6 @@ const NavigationStack = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-        />
-        <Stack.Screen
-          name="Charting"
-          component={Charting}
         />
       </Stack.Navigator>
     </NavigationContainer>

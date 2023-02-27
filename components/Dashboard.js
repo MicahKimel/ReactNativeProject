@@ -100,6 +100,14 @@ export default class Dashboard extends Component {
         }
     }
 
+    ChartNavigate = async event => {
+        console.log("charting")
+        console.log(this.state.data)
+        this.props.navigation.navigate("Charting", {
+            data: this.state.data
+        })
+    }
+
     createExercise = async event => {
         console.log("POST")
         var url = "https://localhost:7144/work/exerciseSet" 
@@ -212,6 +220,10 @@ export default class Dashboard extends Component {
                 }}
             />
             <Text>Bezier Line Chart</Text> */}
+
+            <View style={styles.Accbutton}>
+            <Button title="Chart" color="#ffffff" onPress={this.ChartNavigate} />
+            </View>
             </View>
             </View>
             </ScrollView>
@@ -219,12 +231,7 @@ export default class Dashboard extends Component {
     }
 };
 
-function getFields(input, field) {
-    var output = [];
-    for (var i=0; i < input.length ; ++i)
-        output.push(input[i][field]);
-    return output;
-}
+
 
 const Col = ({ numRows, children }) => {
     return  (

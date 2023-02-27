@@ -8,21 +8,44 @@ import {
     TextInput,
     Button,
     View,
+    Dimensions,
+    ScrollView,
   } from 'react-native';
 import { Component } from "react/cjs/react.production.min";
+import {
+    LineChart, ContributionGraph
+  } from "react-native-chart-kit";
 
 export default class Charting extends Component {
-  state = {
-    user: '',
-    password: ''
+  // Access the postId and otherParam via Destructuring assignment
+  componentDidMount(){
+      console.log("mounted")
+      let tmp = this.props.route.params["data"]
+      
+      console.log(this.getFields(tmp, "Date"))
+  }
+
+  getFields(input, field) {
+    var output = [];
+    for (var i=0; i < input.length ; ++i)
+        output.push(input[i][field]);
+    return output;
+}
+
+  BacktoDashboard = async event => {
+    this.props.navigation.navigate("Dashboard")
   }
 
   render(){
     return (
-        <View>
+        <View style={{flex: 1}}>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
+        </View>
+        <ScrollView horizontal={true}>
         <LineChart
         data={{
-            labels: this.state.data.map(i => { i.Year }),
+            labels: this.getFields(this.props.route.params["data"], "Date"),
             datasets: [
                 // {
                 // data: this.state.data2,
@@ -31,17 +54,18 @@ export default class Charting extends Component {
                 // },
 
                 {
-                data: this.state.data.getFields("Reps"),
+                data: this.getFields(this.props.route.params["data"], "Reps"),
                 color: (opacity = 1) => `rgba(134, 70, 50, ${opacity})`, // optional
                 strokeWidth: 2 // optional
                 }
             ],
-            legend: ["Rainy Days"] // optional
+            legend: ["Reps"] // optional
         }}
-        width={Dimensions.get("window").width} // from react-native
+        //width={Dimensions.get("window").width} // from react-native
         height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
+        width={800}
+        yAxisLabel=""
+        yAxisSuffix=""
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
         backgroundColor: "#e26a00",
@@ -65,6 +89,7 @@ export default class Charting extends Component {
         borderRadius: 16
         }}
         /> 
+        </ScrollView>
         </View>
     );
   }
