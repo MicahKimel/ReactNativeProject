@@ -58,6 +58,7 @@ export default class Dashboard extends Component {
     }
 
     toggleShowWorkout = event => {
+        console.log(String(new Date().getUTCFullYear()) + "0" + String(new Date().getUTCMonth() + 1) + String(new Date().getDate()))
         this.setState({ showAddWorkout: !this.state.showAddWorkout })
         console.log(this.state.showAddWorkout)
     }
@@ -192,7 +193,7 @@ export default class Dashboard extends Component {
             <ScrollView style={styles.scrollView} horizontal={true}
                 contentOffset={{x:new Date().getMonth() * 250, y:0}} >
                 <View style={styles.displaybox}>
-                    <Month />
+                    <Month data = {this.state.data} />
                 </View>
             </ScrollView>
             <View>
