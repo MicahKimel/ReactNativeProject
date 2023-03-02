@@ -3,6 +3,7 @@ import Month from "./Month";
 import Charting from "./Charting";
 import axios from "axios";
 import React from "react";
+import Modal from "react-native-modal";
 import { retrieveUserSession } from "./code";
 import {
     LineChart, ContributionGraph
@@ -67,9 +68,7 @@ export default class Dashboard extends Component {
     }
 
     toggleShowWorkout = event => {
-        console.log(String(new Date().getUTCFullYear()) + "0" + String(new Date().getUTCMonth() + 1) + String(new Date().getDate()))
         this.setState({ showAddWorkout: !this.state.showAddWorkout })
-        console.log(this.state.showAddWorkout)
     }
 
     componentDidMount(){
@@ -102,7 +101,7 @@ export default class Dashboard extends Component {
             console.log(response.status);
             console.log(response.data);
             this.state.data = response.data;
-            this.toggleShowWorkout()
+            this.setState({ showAddWorkout: false })
             //this.props.navigation.navigate("Dashboard");
             })
         } catch (error) {
@@ -151,7 +150,7 @@ export default class Dashboard extends Component {
             console.log(response.status);
             console.log(response.data);
             //this.state.data = response.data;
-            this.toggleShowWorkout()
+            this.setState({ showAddWorkout: false })
             //this.props.navigation.navigate("Dashboard");
             })
         } catch (error) {
@@ -178,8 +177,11 @@ export default class Dashboard extends Component {
                     </View>
                 </Row>
             </View>
-            { this.state.showAddWorkout &&
+            <Modal isVisible={this.state.showAddWorkout}>
             <View style={styles.displaybox}>
+                <Row>
+                <Button title="X" color="#FE0000" onPress={this.toggleShowWorkout} />
+                </Row>
                 <TypesDropDown SelectedWorkout = {this.onExerciesChange}></TypesDropDown>
                 <Text>Weight</Text>
                 <TextInput
@@ -199,8 +201,8 @@ export default class Dashboard extends Component {
                   <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
                 </View>
             </View>
-            }
-            <Text>{new Date().toLocaleString()}</Text>
+            </Modal>
+            {/*<Text>{new Date().toLocaleString()}</Text>*/}
             <ScrollView style={styles.scrollView} horizontal={true}
                 contentOffset={{x:new Date().getMonth() * 250, y:0}} >
                 <View style={styles.displaybox}>
