@@ -43,6 +43,15 @@ export default class Dashboard extends Component {
           ]
       }
 
+      getFields(input, field) {
+        var output = [];
+        if (input != null && input.length > 0){
+        for (var i=0; i < input.length ; ++i)
+            output.push(input[i][field]);
+        }
+        return output;
+        }
+
     onWeightText = event => {
         this.setState({ weight: event.nativeEvent.text })
     }
@@ -103,9 +112,11 @@ export default class Dashboard extends Component {
 
     ChartNavigate = async event => {
         console.log("charting")
-        console.log(this.state.data)
         this.props.navigation.navigate("Charting", {
-            data: this.state.data
+            data: this.state.data,
+            filtered: this.state.data,
+            labels: this.getFields(this.state.data, "Reps"),
+            xdata: this.getFields(this.state.data, "Weight"),
         })
     }
 
@@ -223,7 +234,7 @@ export default class Dashboard extends Component {
             <Text>Bezier Line Chart</Text> */}
 
             <View style={styles.Accbutton}>
-            <Button title="Chart" color="#ffffff" onPress={this.ChartNavigate} />
+                <Button title="Chart" color="#ffffff" onPress={this.ChartNavigate} />
             </View>
             </View>
             </View>
