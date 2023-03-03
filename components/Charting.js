@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import ChartingTypeDropDown from "./ChartingTypeDropDown";
 import { storeUserSession } from "./code";
+import Modal from "react-native-modal";
 import {
     StyleSheet,
     Text,
@@ -20,7 +21,8 @@ import {
 export default class Charting extends Component {
     state = {
         labelName: "Reps",
-        xdataName: "Weight"
+        xdataName: "Weight",
+        ExerciseProgress: false
       }
   // Access the postId and otherParam via Destructuring assignment
   componentDidMount(){
@@ -41,6 +43,7 @@ export default class Charting extends Component {
   }
 
   updateType = (val) => {
+    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
     this.props.navigation.navigate("Charting", {
         data: this.props.route.params["data"],
         filtered: this.props.route.params["data"].filter( i => i.Name === val),
@@ -50,6 +53,7 @@ export default class Charting extends Component {
   }
 
   updateWeight = (val) => {
+    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
     this.props.navigation.navigate("Charting", {
         data: this.props.route.params["data"],
         filtered: this.props.route.params["data"].filter( i => i.Weight === val),
@@ -60,6 +64,7 @@ export default class Charting extends Component {
   }
 
   updateReps = (val) => {
+    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
     this.props.navigation.navigate("Charting", {
         data: this.props.route.params["data"],
         filtered: this.props.route.params["data"].filter( i => i.Reps === val),
@@ -96,6 +101,20 @@ export default class Charting extends Component {
     this.updateAxis()
   }
 
+  toggleExerciseProgress = async event => {
+    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
+  }
+
+  ChartNavigate = async event => {
+    console.log("charting")
+    this.props.navigation.navigate("Charting", {
+        data: this.state.data,
+        filtered: this.state.data,
+        labels: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.labelName),
+        xdata: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.xdataName),
+    })
+}
+
   render(){
     return (
         <View style={{flex: 1}}>
@@ -116,7 +135,7 @@ export default class Charting extends Component {
 
                 {
                 data: this.props.route.params["xdata"],
-                color: (opacity = 1) => `rgba(134, 70, 50, ${opacity})`, // optional
+                color: (opacity = 1) => `rgba(0, 255, 65, ${opacity})`, // optional
                 strokeWidth: 2 // optional
                 }
             ],
@@ -129,9 +148,9 @@ export default class Charting extends Component {
         yAxisSuffix=""
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
-        backgroundColor: "#e26a00",
-        backgroundGradientFrom: "#fb8c00",
-        backgroundGradientTo: "#ffa726",
+        backgroundColor: "#5499C7",
+        backgroundGradientFrom: "#2980B9",
+        backgroundGradientTo: "#A9CCE3",
         decimalPlaces: 2, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -141,7 +160,7 @@ export default class Charting extends Component {
         propsForDots: {
             r: "6",
             strokeWidth: "2",
-            stroke: "#ffa726"
+            stroke: "#0D4567"
         }
         }}
         bezier
@@ -151,28 +170,34 @@ export default class Charting extends Component {
         }}
         /> 
         </ScrollView>
-        <Row>
-            <Col>
+
+        <Modal isVisible={this.state.ExerciseProgress}>
+        <View style={styles.displaybox}>
             
             <Text>Type</Text>
             <ChartingTypeDropDown update = {this.updateType} data = {[...new Set(this.getFields(this.props.route.params["data"], "Name"))]}/>
-        
-            </Col>
-            <Col>
-            <Text>Weight</Text>
-            <ChartingTypeDropDown update = {this.updateWeight} data = {[...new Set(this.getFields(this.props.route.params["data"], "Weight"))]}/>
-        
-            </Col>
-        </Row>
+
         <Row>
             <Col>
             <Text>Reps</Text>
             <ChartingTypeDropDown update = {this.updatelabelName} data = {[...new Set(this.getFields(this.props.route.params["data"], "Reps"))]}/>
             </Col>
+            <Col>
+            <Text>Weight</Text>
+            <ChartingTypeDropDown update = {this.updateWeight} data = {[...new Set(this.getFields(this.props.route.params["data"], "Weight"))]}/>
+            </Col>
         </Row>
-        <Row>
+            <View style={styles.Accbutton}>
+            <Button title="Filter" color="#ffffff" onPress={this.updateType} />
+            </View>
+        </View>
+        </Modal>
+        <View style={styles.Accbutton}>
+            <Button title="Exercise Progress" color="#ffffff" onPress={this.toggleExerciseProgress} />
+        </View>
+        {/*<Row>
 
-        <Col>
+         <Col>
             <Text>X Axis</Text>
             <ChartingTypeDropDown update = {this.updatelabelName} data = {[...new Set(Object.keys(this.props.route.params["data"][0]))]}/>
             </Col>
@@ -180,7 +205,7 @@ export default class Charting extends Component {
             <Text>Y Axis</Text>
             <ChartingTypeDropDown update = {this.updatexdataName} data = {[...new Set(Object.keys(this.props.route.params["data"][0]))]}/>
             </Col>
-        </Row>
+        </Row> */}
         </View>
     );
   }
