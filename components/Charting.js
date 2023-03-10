@@ -82,7 +82,7 @@ export default class Charting extends Component {
     this.props.navigation.navigate("Charting", {
         data: this.props.route.params["data"],
         filtered: dataval,
-        labels: [...new Set(this.getFields(dataval, "Reps"))],
+        labels: this.getFields(dataval, "Reps"),
         xdata: this.getFields(dataval, "Weight"),
         legend: legend,
         datasets: datavalues,
@@ -155,23 +155,35 @@ export default class Charting extends Component {
 
   render(){
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 0.8}}>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
-            <Button title="Clear" color="#50A9D8" onPress={this.refresh} />
         </View>
+        <View>
+          <Row style={{RowCenter}}>
+          <Button title="<" color="#50A9D8" onPress={this.BacktoDashboard} />
+          <Button title={String(this.props.route.params["date"])} color="#50A9D8" onPress={this.refresh} />
+          <Button title=">" color="#50A9D8" onPress={this.BacktoDashboard} />
+          </Row>
+        </View>
+
+        <View style={styles.displaybox}>
         <ScrollView horizontal={true}>
+        <View style={styles.Labely}>
+        <Text>Weight</Text>
+        </View>
         <LineChart
         data={{
             labels: this.props.route.params["labels"],
             datasets: this.props.route.params["datasets"],
             legend: this.props.route.params["legend"] // optional
         }}
-        width={Dimensions.get("window").width} // from react-native
+        width={Dimensions.get("window").width - 40} // from react-native
         height={220}
         //width={800}
         yAxisLabel=""
         yAxisSuffix=""
+        xAxisLabel=""
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
         backgroundColor: "#5499C7",
@@ -196,6 +208,10 @@ export default class Charting extends Component {
         }}
         /> 
         </ScrollView>
+        <View style={styles.Labelx}>
+        <Text>Reps</Text>
+        </View>
+        </View>
 
         <Modal isVisible={this.state.ExerciseProgress}>
         <View style={styles.displaybox}>
@@ -264,6 +280,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         backgroundColor: "#3DB4E4"
     },
+    RowCenter:{
+      justifyContent: center,
+      alignItems: center
+    },
     GridBttn:{
         backgroundColor: "#704b48"
     },
@@ -309,6 +329,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         paddingVertical: 24,
         backgroundColor: "#D6E0E4",
+    },
+    Labelx:{
+      marginStart: 180,
+    },
+    Labely:{
+      marginTop: 120,
+      height: 30,
+      transform: [{rotate: '-90deg'}]
     },
     input: {
         marginTop: 0,
