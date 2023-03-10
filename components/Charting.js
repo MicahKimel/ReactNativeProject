@@ -20,8 +20,11 @@ import {
 
 export default class Charting extends Component {
     state = {
-        labelName: "Reps",
-        xdataName: "Weight",
+        Reps: "",
+        Weight: "",
+        Name: "",
+        date1: "",
+        date2: "",
         ExerciseProgress: false
       }
   // Access the postId and otherParam via Destructuring assignment
@@ -42,35 +45,70 @@ export default class Charting extends Component {
     this.props.navigation.navigate("Dashboard")
   }
 
-  updateType = (val) => {
+  updateChart = async event => {
     this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
+    dataval = this.props.route.params["data"]
+    if (this.state.Name != "") {
+      dataval = dataval.filter(i => i.Name == this.state.Name)
+    }
+    if (this.state.date1 != "") {
+      dataval = dataval.filter(i => i.Date == this.state.date1)
+    }
+    if (this.state.Reps != "") {
+      dataval = dataval.filter(i => i.Reps == this.state.Reps)
+    }
+    if (this.state.Weight != "") {
+      dataval = dataval.filter(i => i.Weight == this.state.Weight)
+    }
+    datasets = dataval.reduce((groups, item) => {
+      const group = (groups[item.Name] || []);
+      group.push(item);
+      groups[item.Name] = group;
+      return groups;
+    }, {});
+    const datavalues = []
+    const legend = []
+    for (const property in datasets) {
+        color1 = String(Math.floor(Math.random() * 255));
+        color2 = String(Math.floor(Math.random() * 255));
+        datavalues.push(
+        {
+            data: this.getFields(datasets[property], "Weight"),
+            color: (opacity = 1) => `rgba(`+color1+`, 255, `+color2+`, ${opacity})`, // optional
+            strokeWidth: 2 // optional
+        });
+        legend.push(property);
+    }
     this.props.navigation.navigate("Charting", {
         data: this.props.route.params["data"],
-        filtered: this.props.route.params["data"].filter( i => i.Name === val),
-        labels: this.getFields(this.props.route.params["data"].filter( i => i.Name === val), this.state.labelName),
-        xdata: this.getFields(this.props.route.params["data"].filter( i => i.Name === val), this.state.xdataName),
+        filtered: dataval,
+        labels: [...new Set(this.getFields(dataval, "Reps"))],
+        xdata: this.getFields(dataval, "Weight"),
+        legend: legend,
+        datasets: datavalues,
+        date: this.props.route.params["date"]
     })
+  }
+
+  getFields(input, field) {
+    var output = [];
+    if (input != null && input.length > 0){
+    for (var i=0; i < input.length ; ++i)
+        output.push(input[i][field]);
+    }
+    return output;
   }
 
   updateWeight = (val) => {
-    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
-    this.props.navigation.navigate("Charting", {
-        data: this.props.route.params["data"],
-        filtered: this.props.route.params["data"].filter( i => i.Weight === val),
-        labels: this.getFields(this.props.route.params["data"].filter( i => i.Weight === val), this.state.labelName),
-        xdata: this.getFields(this.props.route.params["data"].filter( i => i.Weight === val), this.state.xdataName),
+    this.setState({ Weight: val})
+  }
 
-    })
+  updateType = (val) => {
+    this.setState({ Name: val})
   }
 
   updateReps = (val) => {
-    this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
-    this.props.navigation.navigate("Charting", {
-        data: this.props.route.params["data"],
-        filtered: this.props.route.params["data"].filter( i => i.Reps === val),
-        labels: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.labelName),
-        xdata: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.xdataName),
-    })
+    this.setState({ Reps: val})
   }
 
   updateAxis = () => {
@@ -126,20 +164,8 @@ export default class Charting extends Component {
         <LineChart
         data={{
             labels: this.props.route.params["labels"],
-            datasets: [
-                // {
-                // data: this.state.data2,
-                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-                // strokeWidth: 2 // optional
-                // },
-
-                {
-                data: this.props.route.params["xdata"],
-                color: (opacity = 1) => `rgba(0, 255, 65, ${opacity})`, // optional
-                strokeWidth: 2 // optional
-                }
-            ],
-            legend: ["Reps"] // optional
+            datasets: this.props.route.params["datasets"],
+            legend: this.props.route.params["legend"] // optional
         }}
         width={Dimensions.get("window").width} // from react-native
         height={220}
@@ -174,13 +200,16 @@ export default class Charting extends Component {
         <Modal isVisible={this.state.ExerciseProgress}>
         <View style={styles.displaybox}>
             
+            <Row>
+                <Button title="X" color="#FE0000" onPress={this.toggleExerciseProgress} />
+            </Row>
             <Text>Type</Text>
             <ChartingTypeDropDown update = {this.updateType} data = {[...new Set(this.getFields(this.props.route.params["data"], "Name"))]}/>
 
         <Row>
             <Col>
             <Text>Reps</Text>
-            <ChartingTypeDropDown update = {this.updatelabelName} data = {[...new Set(this.getFields(this.props.route.params["data"], "Reps"))]}/>
+            <ChartingTypeDropDown update = {this.updateReps} data = {[...new Set(this.getFields(this.props.route.params["data"], "Reps"))]}/>
             </Col>
             <Col>
             <Text>Weight</Text>
@@ -188,12 +217,14 @@ export default class Charting extends Component {
             </Col>
         </Row>
             <View style={styles.Accbutton}>
-            <Button title="Filter" color="#ffffff" onPress={this.updateType} />
+            <Button title="Filter" color="#ffffff" onPress={this.updateChart} />
             </View>
         </View>
         </Modal>
+        <View style={styles.displaybox}>
         <View style={styles.Accbutton}>
-            <Button title="Exercise Progress" color="#ffffff" onPress={this.toggleExerciseProgress} />
+            <Button title="Exercise Progress Filter" color="#ffffff" onPress={this.toggleExerciseProgress} />
+        </View>
         </View>
         {/*<Row>
 

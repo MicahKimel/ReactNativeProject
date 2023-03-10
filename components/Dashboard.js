@@ -44,6 +44,11 @@ export default class Dashboard extends Component {
           ]
       }
 
+    //   constructor(props) {
+    //     super(props)
+    //     this.ChartNavigate = this.ChartNavigate.bind(this) //referencing the method in constructor
+    //   }
+
       getFields(input, field) {
         var output = [];
         if (input != null && input.length > 0){
@@ -51,7 +56,7 @@ export default class Dashboard extends Component {
             output.push(input[i][field]);
         }
         return output;
-        }
+    }
 
     onWeightText = event => {
         this.setState({ weight: event.nativeEvent.text })
@@ -109,8 +114,9 @@ export default class Dashboard extends Component {
         }
     }
 
-    ChartNavigate = async event => {
+    ChartNavigate = (val) => {
         console.log("charting")
+        //console.log(val)
         this.props.navigation.navigate("Charting", {
             data: this.state.data,
             filtered: this.state.data,
@@ -206,7 +212,7 @@ export default class Dashboard extends Component {
             <ScrollView style={styles.scrollView} horizontal={true}
                 contentOffset={{x:new Date().getMonth() * 250, y:0}} >
                 <View style={styles.displaybox}>
-                    <Month data = {this.state.data} />
+                    <Month data = {this.state.data} navigation = {this.props.navigation} />
                 </View>
             </ScrollView>
             <View>
@@ -235,9 +241,9 @@ export default class Dashboard extends Component {
             />
             <Text>Bezier Line Chart</Text> */}
 
-            <View style={styles.Accbutton}>
+            {/* <View style={styles.Accbutton}>
                 <Button title="Chart" color="#ffffff" onPress={this.ChartNavigate} />
-            </View>
+            </View> */}
             </View>
             </View>
             </ScrollView>

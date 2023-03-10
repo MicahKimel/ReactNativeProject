@@ -6,8 +6,15 @@ import {
     View,
   } from 'react-native';
   import { Component } from "react/cjs/react.production.min";
+import Dashboard from "./Dashboard";
+import { useNavigation } from '@react-navigation/native';
 
-const Month = (data) => {
+const Month = (data, navigation) => {
+
+  componentDidMount = () => {
+    console.log(this.props)
+  }
+
     printing = async event => {
         console.log(String(new Date().getUTCFullYear()) + "0" + String(new Date().getUTCMonth() + 1) + String(new Date().getDate()))
         console.log(data.data.filter( key => key.Date == 
@@ -61,44 +68,44 @@ const Month = (data) => {
                         <Col numRows={0}>
                         <Row>
                         <Text>   </Text>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()} data = {data.data} ></Day>
                         </Row>
                         <Row>
                         <Text>   </Text>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()} data = {data.data} ></Day>
                         </Row>
                         <Row>
                         <Text>   </Text>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()} data = {data.data} ></Day>
                         </Row>
                         <Row>
                         <Text>   </Text>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()} data = {data.data} ></Day>
                         </Row>
                         <Row>
                         <Text>   </Text>
-                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()} data = {data.data} ></Day>
                         </Row>
                         </Col>
                       );
                     if (i.getDate() % 5 == 0)
                     return (
                         <Col numRows={0}>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()} data = {data.data}></Day>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()} data = {data.data}></Day>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()} data = {data.data}></Day>
-                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()} data = {data.data}></Day>
-                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()} data = {data.data}></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-4).toString()} data = {data.data} ></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-3).toString()} data = {data.data} ></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-2).toString()} data = {data.data} ></Day>
+                        <Day month = {i.getMonth()+1} day = {(i.getDate()-1).toString()} data = {data.data} ></Day>
+                        <Day month = {i.getMonth()+1} day = {i.getDate().toString()} data = {data.data} ></Day>
                         </Col>
                       );
                     if (i.getMonth() == 1 && i.getDate() == 26 && year % 4 == 0)
                     return (
                         <View>
                             <Col numRows={0}>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data}></Day>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()} data = {data.data}></Day>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()} data = {data.data}></Day>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()+3).toString()} data = {data.data}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data} ></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()} data = {data.data} ></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()} data = {data.data} ></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+3).toString()} data = {data.data} ></Day>
                             </Col>
                         </View>
                       );
@@ -106,9 +113,9 @@ const Month = (data) => {
                       return (
                         <View>
                             <Col numRows={0}>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data}></Day>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()} data = {data.data}></Day>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()} data = {data.data}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data} ></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+1).toString()} data = {data.data} ></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()+2).toString()} data = {data.data} ></Day>
                             </Col>
                         </View>
                         );
@@ -116,7 +123,7 @@ const Month = (data) => {
                       return (
                         <View>
                             <Col numRows={0}>
-                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data}></Day>
+                            <Day month = {i.getMonth()+1} day = {(i.getDate()).toString()} data = {data.data} ></Day>
                             </Col>
                         </View>
                         );
@@ -164,24 +171,63 @@ function getDates(startDate, stopDate) {
 }
 
 
-class Day extends Component{
-    printstuff = event => {
-        let i = this.props.data.filter( key => key.Date === "20230224")
-        console.log(i)
-        return true
+function Day({month, day, data}){
+    const navigation = useNavigation();
+    ChartNavigate = async event => {
+        console.log("charting")
+        //console.log(data)
+        filterData = data.filter( d => d.Date ===  String(new Date().getUTCFullYear()) + (String(month).length == 1 ? "0" + String(month) : String(month)) + 
+        (String(day).length == 1 ? "0" + String(day) : String(day)))
+        datasets = filterData.reduce((groups, item) => {
+            const group = (groups[item.Name] || []);
+            group.push(item);
+            groups[item.Name] = group;
+            return groups;
+          }, {});
+        const datavalues = []
+        const legend = []
+        for (const property in datasets) {
+            color1 = String(Math.floor(Math.random() * 255));
+            color2 = String(Math.floor(Math.random() * 255));
+            datavalues.push(
+            {
+                data: getFields(datasets[property], "Weight"),
+                color: (opacity = 1) => `rgba(`+color1+`, 255, `+color2+`, ${opacity})`, // optional
+                strokeWidth: 2 // optional
+            });
+            legend.push(property);
+        }
+        navigation.navigate("Charting", {
+            data: data,
+            filtered: filterData,
+            labels: [...new Set(getFields(filterData, "Reps"))],
+            xdata: getFields(filterData, "Weight"),
+            legend: legend,
+            datasets: datavalues,
+            date: String(new Date().getUTCFullYear()) + (String(month).length == 1 ? "0" + String(month) : String(month)) + 
+            (String(day).length == 1 ? "0" + String(day) : String(day))
+        })
     }
 
-    render(){
-        return (
-            <View style={this.props.data.filter( key => key.Date === 
-                String(new Date().getUTCFullYear()) + "0" + String(this.props.month) + String(this.props.day)).length > 0 && this.printstuff ? styles.GridBttnActivity
-             : new Date().getMonth() + 1 == this.props.month && new Date().getDate() == this.props.day ? 
-             styles.GridBttnToday : styles.GridBttn}>
-                <Button title={this.props.day} color="#ffffff"/>
-            </View>
-        )
+    function getFields(input, field) {
+        var output = [];
+        if (input != null && input.length > 0){
+        for (var i=0; i < input.length ; ++i)
+            output.push(input[i][field]);
+        }
+        return output;
     }
-};
+
+    return (
+        <View style={data.filter( key => key.Date === 
+            String(new Date().getUTCFullYear()) + (String(month).length == 1 ? "0" + String(month) : String(month)) + 
+            (String(day).length == 1 ? "0" + String(day) : String(day))).length > 0 ? styles.GridBttnActivity
+            : new Date().getMonth() + 1 == month && new Date().getDate() == day ? 
+            styles.GridBttnToday : styles.GridBttn}>
+            <Button title={day} color="#ffffff" onPress={ChartNavigate} />
+        </View>
+    );
+}
 
 const Col = ({ numRows, children }) => {
     return  (

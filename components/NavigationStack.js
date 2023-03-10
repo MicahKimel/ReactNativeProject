@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Home from "./Home";
 import CreateAccount from "./CreateAccount";
 import Charting from "./Charting";
+import Day from "./Month";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,12 +15,12 @@ const NavigationStack = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>        
         <Stack.Screen
-          name="Dashboard"
-          component={Dashboard}
-        />
-        <Stack.Screen
           name="Login"
           component={Login}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
         />
         <Stack.Screen
           name="Charting"
@@ -32,6 +33,10 @@ const NavigationStack = () => {
         <Stack.Screen
           name="Home"
           component={Home}
+        />
+        <Stack.Screen
+          name="Day"
+          component={Day}
         />
       </Stack.Navigator>
     </NavigationContainer>
