@@ -160,7 +160,7 @@ export default class Charting extends Component {
             <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
         </View>
         <View>
-          <Row style={{RowCenter}}>
+          <Row style={styles.RowCenter}>
           <Button title="<" color="#50A9D8" onPress={this.BacktoDashboard} />
           <Button title={String(this.props.route.params["date"])} color="#50A9D8" onPress={this.refresh} />
           <Button title=">" color="#50A9D8" onPress={this.BacktoDashboard} />
@@ -281,8 +281,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#3DB4E4"
     },
     RowCenter:{
-      justifyContent: center,
-      alignItems: center
+      backgroundColor: "#704b48"
     },
     GridBttn:{
         backgroundColor: "#704b48"
