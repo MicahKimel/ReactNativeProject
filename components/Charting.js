@@ -155,7 +155,7 @@ export default class Charting extends Component {
 
   render(){
     return (
-        <View style={{flex: 0.8}}>
+        <View style={styles.topView}>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
         </View>
@@ -303,6 +303,9 @@ const styles = StyleSheet.create({
         borderWidth:  1,
         flex:  1
     },  
+    topView: {
+      paddingVertical: 40,
+    }, 
     scrollView: {
       paddingVertical: 20,
       flexWrap: 'wrap'

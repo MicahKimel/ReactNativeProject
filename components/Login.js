@@ -61,7 +61,7 @@ export default class CreateAccount extends Component {
   }
   render(){
     return (
-        <View>
+        <View style={styles.scrollView}>
             <Text style={styles.sectionTitle}>User Login</Text>
               <View styles={styles.paddingbox}>
                 <View style={styles.displaybox}>
@@ -93,6 +93,9 @@ export default class CreateAccount extends Component {
 
 
 const styles = StyleSheet.create({
+    scrollView: {
+      paddingVertical: 20,
+    },
     Accbutton:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"

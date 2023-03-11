@@ -62,7 +62,7 @@ import { Component } from "react/cjs/react.production.min";
   }
   render(){
     return (
-        <View>
+        <View style={styles.scrollView}>
             <Text style={styles.sectionTitle}>Create Account</Text>
             <View style={styles.backbutton} >
                 <Button title="<" color="#202124" onPress={this.Back} />
@@ -97,6 +97,9 @@ import { Component } from "react/cjs/react.production.min";
 };
 
 const styles = StyleSheet.create({
+    scrollView: {
+      paddingVertical: 20,
+    },
     button:{
         marginTop: 50,
         backgroundColor: "#3DB4E4"
