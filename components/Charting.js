@@ -4,6 +4,7 @@ import React from "react";
 import ChartingTypeDropDown from "./ChartingTypeDropDown";
 import { storeUserSession } from "./code";
 import Modal from "react-native-modal";
+import TypesDropDown from "./TypesDropDown";
 import {
     StyleSheet,
     Text,
@@ -15,7 +16,7 @@ import {
   } from 'react-native';
 import { Component } from "react/cjs/react.production.min";
 import {
-    LineChart, ContributionGraph
+    LineChart, StackedBarChart
   } from "react-native-chart-kit";
 
 export default class Charting extends Component {
@@ -25,11 +26,19 @@ export default class Charting extends Component {
         Name: "",
         date1: "",
         date2: "",
+        weight: '',
+        reps: '',
+        exercise: '',
+        showAddWorkout: false,
         ExerciseProgress: false
       }
   // Access the postId and otherParam via Destructuring assignment
   componentDidMount(){
-      this.state.data = this.props.route.params["data"]
+      //this.state.data = this.props.route.params["data"]
+  }
+
+  toggleShowWorkout = event => {
+    this.setState({ showAddWorkout: !this.state.showAddWorkout })
   }
 
   getFields(input, field) {
@@ -45,49 +54,9 @@ export default class Charting extends Component {
     this.props.navigation.navigate("Dashboard")
   }
 
-  updateChart = async event => {
+  filterChart = async event => {
     this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
-    dataval = this.props.route.params["data"]
-    if (this.state.Name != "") {
-      dataval = dataval.filter(i => i.Name == this.state.Name)
-    }
-    if (this.state.date1 != "") {
-      dataval = dataval.filter(i => i.Date == this.state.date1)
-    }
-    if (this.state.Reps != "") {
-      dataval = dataval.filter(i => i.Reps == this.state.Reps)
-    }
-    if (this.state.Weight != "") {
-      dataval = dataval.filter(i => i.Weight == this.state.Weight)
-    }
-    datasets = dataval.reduce((groups, item) => {
-      const group = (groups[item.Name] || []);
-      group.push(item);
-      groups[item.Name] = group;
-      return groups;
-    }, {});
-    const datavalues = []
-    const legend = []
-    for (const property in datasets) {
-        color1 = String(Math.floor(Math.random() * 255));
-        color2 = String(Math.floor(Math.random() * 255));
-        datavalues.push(
-        {
-            data: this.getFields(datasets[property], "Weight"),
-            color: (opacity = 1) => `rgba(`+color1+`, 255, `+color2+`, ${opacity})`, // optional
-            strokeWidth: 2 // optional
-        });
-        legend.push(property);
-    }
-    this.props.navigation.navigate("Charting", {
-        data: this.props.route.params["data"],
-        filtered: dataval,
-        labels: this.getFields(dataval, "Reps"),
-        xdata: this.getFields(dataval, "Weight"),
-        legend: legend,
-        datasets: datavalues,
-        date: this.props.route.params["date"]
-    })
+    this.updateChart()
   }
 
   getFields(input, field) {
@@ -99,72 +68,177 @@ export default class Charting extends Component {
     return output;
   }
 
+  createExercise = async event => {
+    console.log("POST")
+    var url = "https://localhost:7144/work/exerciseSet" 
+    //retrieveUserSession()
+    let session = await retrieveUserSession()
+    console.log(session.split("\"")[3])
+    console.log(this.state.data)
+    // + 
+    // "?user=" + this.state.user + 
+    // "&password=" + this.state.password
+    try{
+        await axios({
+        method: 'post',
+        url: url,
+        headers: {Authorization : "Bearer " + session.split("\"")[3]},
+        data: {
+          exerciseId: this.state.exercise, 
+          weight: this.state.weight,
+          reps: this.state.reps,
+          metricType: 1
+        },
+        httpsAgent: {
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+        }
+        })
+        .then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+        //this.state.data = response.data;
+        this.setState({ showAddWorkout: false })
+        //this.props.navigation.navigate("Dashboard");
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+  ShowToday = (val) => {
+    this.setState({ Weight: ""})
+    this.setState({ Name: ""})
+    this.setState({ Reps: ""})
+    this.setState({ date1: val},
+    function() {this.updateChart()});
+  }
+
   updateWeight = (val) => {
     this.setState({ Weight: val})
+    this.setState({ date1: ""})
   }
 
   updateType = (val) => {
     this.setState({ Name: val})
+    this.setState({ date1: ""})
   }
 
   updateReps = (val) => {
     this.setState({ Reps: val})
+    this.setState({ date1: ""})
   }
 
-  updateAxis = () => {
-    this.props.navigation.navigate("Charting", {
-        data: this.props.route.params["data"],
-        filtered: this.props.route.params["filtered"],
-        labels: this.getFields(this.props.route.params["filtered"], this.state.labelName),
-        xdata: this.getFields(this.props.route.params["filtered"], this.state.xdataName),
-    })
+  onWeightText = event => {
+    this.setState({ weight: event.nativeEvent.text })
   }
 
-  refresh = () => {
-    this.props.navigation.navigate("Charting", {
-        data: this.props.route.params["data"],
-        filtered: this.props.route.params["data"],
-        labels: this.getFields(this.props.route.params["data"], this.state.labelName),
-        xdata: this.getFields(this.props.route.params["data"], this.state.xdataName),
-    })
+  onRepsText = event => {
+      this.setState({ reps: event.nativeEvent.text })
+      console.log(this.state.reps)
   }
 
-  updatelabelName = (val) => {
-    this.setState({ labelName: val })
-    this.updateAxis()
+  onExerciesChange = (val) => {
+      this.setState({ exercise: val })
+      console.log(this.state.exercise)
   }
 
-  updatexdataName = (val) => {
-    this.setState({ xdataName: val })
-    this.updateAxis()
-  }
+  // updateAxis = () => {
+  //   this.props.navigation.navigate("Charting", {
+  //       data: this.props.route.params["data"],
+  //       filtered: this.props.route.params["filtered"],
+  //       labels: this.getFields(this.props.route.params["filtered"], this.state.labelName),
+  //       xdata: this.getFields(this.props.route.params["filtered"], this.state.xdataName),
+  //   })
+  // }
+
+  // updatelabelName = (val) => {
+  //   this.setState({ labelName: val })
+  //   this.updateAxis()
+  // }
+
+  // updatexdataName = (val) => {
+  //   this.setState({ xdataName: val })
+  //   this.updateAxis()
+  // }
 
   toggleExerciseProgress = async event => {
     this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
   }
 
-  ChartNavigate = async event => {
-    console.log("charting")
+  // ChartNavigate = async event => {
+  //   console.log("charting")
+  //   this.props.navigation.navigate("Charting", {
+  //       data: this.state.data,
+  //       filtered: this.state.data,
+  //       labels: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.labelName),
+  //       xdata: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.xdataName),
+  //   })
+  // }
+
+  updateChart = async event => {
+    dataval = this.props.route.params["data"]
+    if (this.state.Name != "") {
+      dataval = dataval.filter(i => i.Name == this.state.Name)
+    }
+    if (this.state.date1 != "") {
+      dataval = dataval.filter(i => i.Date == this.state.date1)
+    }
+    if (this.state.Weight != "") {
+      dataval = dataval.filter(i => i.Weight == this.state.Weight)
+    }
+    if (this.state.Reps != "") {
+      dataval = dataval.filter(i => i.Reps == this.state.Reps)
+      labels = this.getFields(dataval, "Date")
+    } else {
+      var labels = this.getFields(dataval, "Reps")
+    }
+    datasets = dataval.reduce((groups, item) => {
+      const group = (groups[item.Name] || []);
+      group.push(item);
+      groups[item.Name] = group;
+      return groups;
+    }, {});
+    const datavalues = []
+    const legend = []
+    //MAYBE ONLY PUSH LAST 4
+    for (const property in datasets) {
+        color1 = String(Math.floor(Math.random() * 255));
+        color2 = String(Math.floor(Math.random() * 255));
+        datavalues.push(
+        {
+            data: this.getFields(datasets[property], "Weight"),
+            color: (opacity = 1) => `rgba(`+color1+`, 255, `+color2+`, ${opacity})`, // optional
+            strokeWidth: 2, // optional
+        });
+        legend.push(property);
+    }
     this.props.navigation.navigate("Charting", {
-        data: this.state.data,
-        filtered: this.state.data,
-        labels: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.labelName),
-        xdata: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.xdataName),
+        data: this.props.route.params["data"],
+        filtered: dataval,
+        labels: labels,
+        // xdata: this.getFields(dataval, "Weight"),
+        legend: legend,
+        datasets: datavalues,
+        date: this.props.route.params["date"]
     })
-}
+  }
 
   render(){
     return (
         <View style={styles.topView}>
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
-            <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
-        </View>
-        <View>
-          <Row style={styles.RowCenter}>
-          <Button title="<" color="#50A9D8" onPress={this.BacktoDashboard} />
-          <Button title={String(this.props.route.params["date"])} color="#50A9D8" onPress={this.refresh} />
-          <Button title=">" color="#50A9D8" onPress={this.BacktoDashboard} />
-          </Row>
+        <View style={styles.container}>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
+              <Button title="<" color="#202124" onPress={this.BacktoDashboard} />
+          </View>
+
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+            <Text style={styles.sectionTitle}>Chart</Text>  
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Button title="+" color="#76BFE4" onPress={this.toggleShowWorkout} />
+          </View>
         </View>
 
         <View style={styles.displaybox}>
@@ -174,16 +248,19 @@ export default class Charting extends Component {
         </View>
         <LineChart
         data={{
-            labels: this.props.route.params["labels"],
-            datasets: this.props.route.params["datasets"],
-            legend: this.props.route.params["legend"] // optional
+            labels: this.props.route.params["labels"] == null || this.props.route.params["labels"].length == 0 ? [""] : this.props.route.params["labels"],
+            datasets: this.props.route.params["datasets"] == null || this.props.route.params["datasets"].length == 0 ? [""] : this.props.route.params["datasets"],
+            legend: this.props.route.params["legend"] == null || this.props.route.params["legend"].length == 0 ? [""] : this.props.route.params["legend"] // optional
         }}
-        width={Dimensions.get("window").width - 40} // from react-native
-        height={220}
-        //width={800}
+        width={this.props.route.params["labels"].length < 10 ? Dimensions.get("window").width - 100 : this.props.route.params["labels"].length * 20} // from react-native
+        height={340}
         yAxisLabel=""
         yAxisSuffix=""
         xAxisLabel=""
+        formatXLabel={label =>
+          label.length == 8 ? label.substring(4,6) + "-" + label.substring(6,8) : label
+        }
+        verticalLabelRotation={this.props.route.params["labels"].length != 0 && this.props.route.params["labels"][0].length > 4 ? "90" : "0"}
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
         backgroundColor: "#5499C7",
@@ -208,8 +285,18 @@ export default class Charting extends Component {
         }}
         /> 
         </ScrollView>
-        <View style={styles.Labelx}>
-        <Text>Reps</Text>
+        <View>
+          <View style={styles.container}>
+            <View style={styles.buttonContainer}>
+              <Button title="Clear" color="#ffffff" onPress={() => this.ShowToday(String(this.props.route.params["date"]))} />
+            </View>
+            { this.props.route.params["labels"].length != 0 && this.props.route.params["labels"][0].length > 4 ?
+            <Text>Date</Text> : <Text>Reps</Text>
+            }
+            <View style={styles.buttonContainer}>
+                <Button title="Filter" color="#ffffff" onPress={this.toggleExerciseProgress} />
+            </View>
+          </View>
         </View>
         </View>
 
@@ -220,28 +307,31 @@ export default class Charting extends Component {
                 <Button title="X" color="#FE0000" onPress={this.toggleExerciseProgress} />
             </Row>
             <Text>Type</Text>
-            <ChartingTypeDropDown update = {this.updateType} data = {[...new Set(this.getFields(this.props.route.params["data"], "Name"))]}/>
+            <ChartingTypeDropDown update = {this.updateType} data = {this.props.route.params["data"].length != 0 ? 
+            [...new Set(this.getFields(this.props.route.params["data"].filter(i => this.state.Weight != "" ? i.Weight == this.state.Weight : this.state.Reps != "" ?
+            i.Reps == this.state.Reps : i), "Name"))] : []}/>
 
         <Row>
             <Col>
             <Text>Reps</Text>
-            <ChartingTypeDropDown update = {this.updateReps} data = {[...new Set(this.getFields(this.props.route.params["data"], "Reps"))]}/>
+            <ChartingTypeDropDown update = {this.updateReps} data = {this.props.route.params["data"].length != 0 ? 
+            [...new Set(this.getFields(this.props.route.params["data"].filter(i => this.state.Name != "" ? i.Name == this.state.Name : this.state.Weight != "" ?
+            i.Weight == this.state.Weight : i), "Reps"))].sort(function (a, b) {  return a - b;  }) : []}/>
             </Col>
             <Col>
             <Text>Weight</Text>
-            <ChartingTypeDropDown update = {this.updateWeight} data = {[...new Set(this.getFields(this.props.route.params["data"], "Weight"))]}/>
+            <ChartingTypeDropDown update = {this.updateWeight} data = {this.props.route.params["data"].length != 0 ? 
+            [...new Set(this.getFields(this.props.route.params["data"].filter(i => this.state.Name != "" ? i.Name == this.state.Name : this.state.Reps != "" ?
+             i.Reps == this.state.Reps : i), "Weight"))].sort(function (a, b) {  return a - b;  }) : []}/>
             </Col>
         </Row>
             <View style={styles.Accbutton}>
-            <Button title="Filter" color="#ffffff" onPress={this.updateChart} />
+            <Button title="Filter" color="#ffffff" onPress={this.filterChart} />
             </View>
         </View>
         </Modal>
-        <View style={styles.displaybox}>
-        <View style={styles.Accbutton}>
-            <Button title="Exercise Progress Filter" color="#ffffff" onPress={this.toggleExerciseProgress} />
-        </View>
-        </View>
+        {/* <View style={styles.displaybox}>
+        </View> */}
         {/*<Row>
 
          <Col>
@@ -253,6 +343,31 @@ export default class Charting extends Component {
             <ChartingTypeDropDown update = {this.updatexdataName} data = {[...new Set(Object.keys(this.props.route.params["data"][0]))]}/>
             </Col>
         </Row> */}
+        <Modal isVisible={this.state.showAddWorkout}>
+            <View style={styles.displaybox}>
+                <Row>
+                <Button title="X" color="#FE0000" onPress={this.toggleShowWorkout} />
+                </Row>
+                <TypesDropDown SelectedWorkout = {this.onExerciesChange}></TypesDropDown>
+                <Text>Weight</Text>
+                <TextInput
+                    style={styles.input}
+                    onChange={this.onWeightText}
+                    keyboardType="numeric"
+                    value={this.reps}
+                />
+                <Text>Reps</Text>
+                <TextInput
+                    style={styles.input}
+                    onChange={this.onRepsText}
+                    keyboardType="numeric"
+                    value={this.reps}
+                />
+                <View style={styles.Accbutton}>
+                  <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
+                </View>
+            </View>
+          </Modal>
         </View>
     );
   }
@@ -269,6 +384,19 @@ const Row = ({ children }) => (
 )
 
 const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 50
+    },
+    buttonContainer: {
+      flex: 1,
+      backgroundColor: "#3DB4E4",
+      marginHorizontal: 20,
+      justifyContent: 'space-between'
+    },
     button:{
         backgroundColor: "#3DB4E4"
     },    
@@ -277,7 +405,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#3DB4E4"
     },    
     Accbutton:{
-        marginTop: 20,
+        paddingHorizontal: 10,
         backgroundColor: "#3DB4E4"
     },
     RowCenter:{
@@ -304,6 +432,7 @@ const styles = StyleSheet.create({
         flex:  1
     },  
     topView: {
+      position: "absolute",
       paddingVertical: 40,
     }, 
     scrollView: {
@@ -318,7 +447,6 @@ const styles = StyleSheet.create({
       paddingHorizontal: 24,
     },
     sectionTitle: {
-        marginTop: 40,
       fontSize: 20,
       fontWeight: '600',
       textAlign: "center",
@@ -336,7 +464,7 @@ const styles = StyleSheet.create({
       marginStart: 180,
     },
     Labely:{
-      marginTop: 120,
+      marginTop: 180,
       height: 30,
       transform: [{rotate: '-90deg'}]
     },
