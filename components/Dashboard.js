@@ -2,9 +2,10 @@ import TypesDropDown from "./TypesDropDown";
 import Month from "./Month";
 import Charting from "./Charting";
 import axios from "axios";
-import React from "react";
+import {React,forwardRef,useState,useImperativeHandle} from "react";
 import Modal from "react-native-modal";
 import { retrieveUserSession } from "./code";
+import AddExercies from "./AddExercies";
 import {
     LineChart, ContributionGraph
   } from "react-native-chart-kit";
@@ -44,6 +45,7 @@ export default class Dashboard extends Component {
           ]
       }
 
+
     //   constructor(props) {
     //     super(props)
     //     this.ChartNavigate = this.ChartNavigate.bind(this) //referencing the method in constructor
@@ -73,6 +75,7 @@ export default class Dashboard extends Component {
     }
 
     toggleShowWorkout = event => {
+        console.log(this.state.showAddWorkout)
         this.setState({ showAddWorkout: !this.state.showAddWorkout })
     }
 
@@ -103,8 +106,8 @@ export default class Dashboard extends Component {
             }
             })
             .then((response) => {
-            console.log(response.status);
-            console.log(response.data);
+            //console.log(response.status);
+            //console.log(response.data);
             this.state.data = response.data;
             this.setState({ showAddWorkout: false })
             //this.props.navigation.navigate("Dashboard");
@@ -125,44 +128,7 @@ export default class Dashboard extends Component {
         })
     }
 
-    createExercise = async event => {
-        console.log("POST")
-        var url = "https://localhost:7144/work/exerciseSet" 
-        //retrieveUserSession()
-        let session = await retrieveUserSession()
-        console.log(session.split("\"")[3])
-        console.log(this.state.data)
-        // + 
-        // "?user=" + this.state.user + 
-        // "&password=" + this.state.password
-        try{
-            await axios({
-            method: 'post',
-            url: url,
-            headers: {Authorization : "Bearer " + session.split("\"")[3]},
-            data: {
-              exerciseId: this.state.exercise, 
-              weight: this.state.weight,
-              reps: this.state.reps,
-              metricType: 1
-            },
-            httpsAgent: {
-            rejectUnauthorized: false,
-            requestCert: false,
-            agent: false,
-            }
-            })
-            .then((response) => {
-            console.log(response.status);
-            console.log(response.data);
-            //this.state.data = response.data;
-            this.setState({ showAddWorkout: false })
-            //this.props.navigation.navigate("Dashboard");
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
     
 
     Back = async event => {
@@ -178,36 +144,9 @@ export default class Dashboard extends Component {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
                         <Button title="<" color="#202124" onPress={this.Back} />
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button title="+" color="#76BFE4" onPress={this.toggleShowWorkout} />
-                    </View>
+                    <AddExercies />
                 </Row>
             </View>
-            <Modal isVisible={this.state.showAddWorkout}>
-            <View style={styles.displaybox}>
-                <Row>
-                <Button title="X" color="#FE0000" onPress={this.toggleShowWorkout} />
-                </Row>
-                <TypesDropDown SelectedWorkout = {this.onExerciesChange}></TypesDropDown>
-                <Text>Weight</Text>
-                <TextInput
-                    style={styles.input}
-                    onChange={this.onWeightText}
-                    keyboardType="numeric"
-                    value={this.reps}
-                />
-                <Text>Reps</Text>
-                <TextInput
-                    style={styles.input}
-                    onChange={this.onRepsText}
-                    keyboardType="numeric"
-                    value={this.reps}
-                />
-                <View style={styles.Accbutton}>
-                  <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
-                </View>
-            </View>
-            </Modal>
             {/*<Text>{new Date().toLocaleString()}</Text>*/}
             <ScrollView style={styles.scrollView} horizontal={true}
                 contentOffset={{x:new Date().getMonth() * 250, y:0}} >
@@ -251,7 +190,31 @@ export default class Dashboard extends Component {
     }
 };
 
+const _addExercise = (props, ref) => {
+    const [visible, setVisible] = useState(false);
 
+    const openMe = () => {
+      console.log('MODAL: openMe called from parent component via ref');
+      setVisible(true);
+    };
+  
+    useImperativeHandle(ref, () => ({publicHandler: openMe}), [openMe]);
+  
+    return (<Modal  useNativeDriver={true} isVisible={this.state.showAddWorkout} >
+        <View style={styles.displaybox}>
+            <Row>
+            <Button title="X" color="#FE0000" onPress={this.toggleShowWorkout} />
+            </Row>
+            <Text>Weight</Text>
+            <Text>Reps</Text>
+            <View style={styles.Accbutton}>
+              <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
+            </View>
+        </View>
+        </Modal>);
+}
+
+const AddExercise = forwardRef(_addExercise);
 
 const Col = ({ numRows, children }) => {
     return  (

@@ -5,6 +5,7 @@ import ChartingTypeDropDown from "./ChartingTypeDropDown";
 import { storeUserSession } from "./code";
 import Modal from "react-native-modal";
 import TypesDropDown from "./TypesDropDown";
+import AddExercies from "./AddExercies";
 import {
     StyleSheet,
     Text,
@@ -54,6 +55,12 @@ export default class Charting extends Component {
     this.props.navigation.navigate("Dashboard")
   }
 
+  toListView = async event => {
+    this.props.navigation.navigate("ListView", {
+      data: this.props.route.params["data"]
+    })
+  }
+
   filterChart = async event => {
     this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
     this.updateChart()
@@ -67,45 +74,6 @@ export default class Charting extends Component {
     }
     return output;
   }
-
-  createExercise = async event => {
-    console.log("POST")
-    var url = "https://localhost:7144/work/exerciseSet" 
-    //retrieveUserSession()
-    let session = await retrieveUserSession()
-    console.log(session.split("\"")[3])
-    console.log(this.state.data)
-    // + 
-    // "?user=" + this.state.user + 
-    // "&password=" + this.state.password
-    try{
-        await axios({
-        method: 'post',
-        url: url,
-        headers: {Authorization : "Bearer " + session.split("\"")[3]},
-        data: {
-          exerciseId: this.state.exercise, 
-          weight: this.state.weight,
-          reps: this.state.reps,
-          metricType: 1
-        },
-        httpsAgent: {
-        rejectUnauthorized: false,
-        requestCert: false,
-        agent: false,
-        }
-        })
-        .then((response) => {
-        console.log(response.status);
-        console.log(response.data);
-        //this.state.data = response.data;
-        this.setState({ showAddWorkout: false })
-        //this.props.navigation.navigate("Dashboard");
-        })
-    } catch (error) {
-        console.log(error)
-    }
-}
 
   ShowToday = (val) => {
     this.setState({ Weight: ""})
@@ -130,52 +98,9 @@ export default class Charting extends Component {
     this.setState({ date1: ""})
   }
 
-  onWeightText = event => {
-    this.setState({ weight: event.nativeEvent.text })
-  }
-
-  onRepsText = event => {
-      this.setState({ reps: event.nativeEvent.text })
-      console.log(this.state.reps)
-  }
-
-  onExerciesChange = (val) => {
-      this.setState({ exercise: val })
-      console.log(this.state.exercise)
-  }
-
-  // updateAxis = () => {
-  //   this.props.navigation.navigate("Charting", {
-  //       data: this.props.route.params["data"],
-  //       filtered: this.props.route.params["filtered"],
-  //       labels: this.getFields(this.props.route.params["filtered"], this.state.labelName),
-  //       xdata: this.getFields(this.props.route.params["filtered"], this.state.xdataName),
-  //   })
-  // }
-
-  // updatelabelName = (val) => {
-  //   this.setState({ labelName: val })
-  //   this.updateAxis()
-  // }
-
-  // updatexdataName = (val) => {
-  //   this.setState({ xdataName: val })
-  //   this.updateAxis()
-  // }
-
   toggleExerciseProgress = async event => {
     this.setState({ ExerciseProgress: !this.state.ExerciseProgress})
   }
-
-  // ChartNavigate = async event => {
-  //   console.log("charting")
-  //   this.props.navigation.navigate("Charting", {
-  //       data: this.state.data,
-  //       filtered: this.state.data,
-  //       labels: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.labelName),
-  //       xdata: this.getFields(this.props.route.params["data"].filter( i => i.Reps === val), this.state.xdataName),
-  //   })
-  // }
 
   updateChart = async event => {
     dataval = this.props.route.params["data"]
@@ -237,8 +162,9 @@ export default class Charting extends Component {
             <Text style={styles.sectionTitle}>Chart</Text>  
           </View>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Button title="+" color="#76BFE4" onPress={this.toggleShowWorkout} />
+              <Button title="=" color="#FFAA00" onPress={this.toListView} />
           </View>
+          <AddExercies />
         </View>
 
         <View style={styles.displaybox}>
@@ -300,7 +226,7 @@ export default class Charting extends Component {
         </View>
         </View>
 
-        <Modal isVisible={this.state.ExerciseProgress}>
+        <Modal isVisible={this.state.ExerciseProgress} useNativeDriver={true} >
         <View style={styles.displaybox}>
             
             <Row>
@@ -329,45 +255,7 @@ export default class Charting extends Component {
             <Button title="Filter" color="#ffffff" onPress={this.filterChart} />
             </View>
         </View>
-        </Modal>
-        {/* <View style={styles.displaybox}>
-        </View> */}
-        {/*<Row>
-
-         <Col>
-            <Text>X Axis</Text>
-            <ChartingTypeDropDown update = {this.updatelabelName} data = {[...new Set(Object.keys(this.props.route.params["data"][0]))]}/>
-            </Col>
-            <Col>
-            <Text>Y Axis</Text>
-            <ChartingTypeDropDown update = {this.updatexdataName} data = {[...new Set(Object.keys(this.props.route.params["data"][0]))]}/>
-            </Col>
-        </Row> */}
-        <Modal isVisible={this.state.showAddWorkout}>
-            <View style={styles.displaybox}>
-                <Row>
-                <Button title="X" color="#FE0000" onPress={this.toggleShowWorkout} />
-                </Row>
-                <TypesDropDown SelectedWorkout = {this.onExerciesChange}></TypesDropDown>
-                <Text>Weight</Text>
-                <TextInput
-                    style={styles.input}
-                    onChange={this.onWeightText}
-                    keyboardType="numeric"
-                    value={this.reps}
-                />
-                <Text>Reps</Text>
-                <TextInput
-                    style={styles.input}
-                    onChange={this.onRepsText}
-                    keyboardType="numeric"
-                    value={this.reps}
-                />
-                <View style={styles.Accbutton}>
-                  <Button title="Sumbit" color="#ffffff" onPress={this.createExercise} />
-                </View>
-            </View>
-          </Modal>
+        </Modal>        
         </View>
     );
   }

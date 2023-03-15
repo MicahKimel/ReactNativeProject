@@ -6,7 +6,6 @@ import {
     View,
   } from 'react-native';
   import { Component } from "react/cjs/react.production.min";
-import Dashboard from "./Dashboard";
 import { useNavigation } from '@react-navigation/native';
 
 const Month = (data, navigation) => {
